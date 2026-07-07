@@ -1,0 +1,35 @@
+import { Schema, model, models, type Document, type Model, type Types } from "mongoose"
+import type { ContentStatus } from "@/types/lifecycle"
+
+export interface TestimonialDocument extends Document {
+  clientName: string
+  position: string
+  company: string
+  image: string
+  review: string
+  projectId: Types.ObjectId | null
+  order: number
+  status: ContentStatus
+  createdAt: Date
+  updatedAt: Date
+}
+
+const testimonialSchema = new Schema<TestimonialDocument>(
+  {
+    clientName: { type: String, required: true },
+    position: { type: String, required: true },
+    company: { type: String, required: true },
+    image: { type: String, required: true },
+    review: { type: String, required: true },
+    projectId: { type: Schema.Types.ObjectId, ref: "Project", default: null },
+    order: { type: Number, default: 0 },
+    status: { type: String, enum: ["draft", "published", "archived"], required: true, default: "draft" },
+  },
+  { timestamps: true },
+)
+
+testimonialSchema.index({ status: 1 })
+testimonialSchema.index({ order: 1 })
+
+export const Testimonial: Model<TestimonialDocument> =
+  models.Testimonial ?? model<TestimonialDocument>("Testimonial", testimonialSchema)

@@ -20,6 +20,9 @@
     --accent: oklch(0.963 0.002 197.1);
     --accent-foreground: oklch(0.218 0.008 223.9);
     --destructive: oklch(0.577 0.245 27.325);
+    --success: oklch(0.6 0.15 149);
+    --warning: oklch(0.65 0.16 70);
+    --info: oklch(0.55 0.18 250);
     --border: oklch(0.925 0.005 214.3);
     --input: oklch(0.925 0.005 214.3);
     --ring: oklch(0.723 0.014 214.4);
@@ -55,6 +58,9 @@
     --accent: oklch(0.275 0.011 216.9);
     --accent-foreground: oklch(0.987 0.002 197.1);
     --destructive: oklch(0.704 0.191 22.216);
+    --success: oklch(0.75 0.17 149);
+    --warning: oklch(0.78 0.15 70);
+    --info: oklch(0.72 0.17 250);
     --border: oklch(1 0 0 / 10%);
     --input: oklch(1 0 0 / 15%);
     --ring: oklch(0.56 0.021 213.5);
@@ -93,6 +99,9 @@
     --color-input: var(--input);
     --color-border: var(--border);
     --color-destructive: var(--destructive);
+    --color-success: var(--success);
+    --color-warning: var(--warning);
+    --color-info: var(--info);
     --color-accent-foreground: var(--accent-foreground);
     --color-accent: var(--accent);
     --color-muted-foreground: var(--muted-foreground);
@@ -129,4 +138,77 @@
   html {
     @apply font-sans;
     }
+}
+
+/* Ambient backdrop: fine blueprint grid + slow-drifting glow, used behind the public site */
+@layer components {
+  .techy-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .techy-backdrop__grid {
+    position: absolute;
+    inset: -1px;
+    background-image:
+      linear-gradient(to right, color-mix(in oklch, var(--foreground), transparent 94%) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklch, var(--foreground), transparent 94%) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+  }
+
+  .techy-backdrop__glow {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.35;
+  }
+
+  .techy-backdrop__glow--primary {
+    top: -12rem;
+    right: -8rem;
+    width: 34rem;
+    height: 34rem;
+    background: radial-gradient(circle at center, var(--primary), transparent 70%);
+    animation: techy-drift-a 26s ease-in-out infinite alternate;
+  }
+
+  .techy-backdrop__glow--info {
+    top: 6rem;
+    left: -12rem;
+    width: 30rem;
+    height: 30rem;
+    background: radial-gradient(circle at center, var(--info), transparent 70%);
+    opacity: 0.22;
+    animation: techy-drift-b 32s ease-in-out infinite alternate;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .techy-backdrop__glow--primary,
+    .techy-backdrop__glow--info {
+      animation: none;
+    }
+  }
+}
+
+@keyframes techy-drift-a {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-3rem, 4rem, 0) scale(1.1);
+  }
+}
+
+@keyframes techy-drift-b {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(4rem, -2rem, 0) scale(1.08);
+  }
 }
