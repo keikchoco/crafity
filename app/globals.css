@@ -152,13 +152,14 @@
 
   .techy-backdrop__grid {
     position: absolute;
-    inset: -1px;
-    background-image:
-      linear-gradient(to right, color-mix(in oklch, var(--foreground), transparent 94%) 1px, transparent 1px),
-      linear-gradient(to bottom, color-mix(in oklch, var(--foreground), transparent 94%) 1px, transparent 1px);
-    background-size: 56px 56px;
+    inset: 0;
     mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
     -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+  }
+
+  .techy-backdrop__gridlines line {
+    stroke: color-mix(in oklch, var(--foreground), transparent 94%);
+    stroke-width: 1;
   }
 
   .techy-backdrop__glow {
