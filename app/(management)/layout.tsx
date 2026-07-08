@@ -11,6 +11,7 @@ export default async function ManagementLayout({
   const blogEnabled = await isFeatureEnabled("blog.enabled")
 
   const links: NavLink[] = [
+    { label: "Home", href: "/" },
     { label: "Work", href: "/portfolio" },
     { label: "Services", href: "/services" },
     ...(blogEnabled ? [{ label: "Blog", href: "/blog" }] : []),

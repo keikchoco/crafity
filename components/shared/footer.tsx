@@ -24,8 +24,8 @@ function Footer({ logo, description, columns = [], bottomText, className }: Foot
   return (
     <footer data-slot="footer" className={cn("border-t border-border", className)}>
       <Container size="lg" className="py-16 md:py-20">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.4fr_repeat(auto-fit,minmax(140px,1fr))]">
-          <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-[1.4fr_repeat(auto-fit,minmax(120px,1fr))] sm:gap-x-10 lg:gap-x-12">
+          <div className="col-span-2 flex flex-col gap-4 sm:col-span-1">
             <span className="font-heading text-3xl font-semibold tracking-tight">
               {logo ?? "Crafity"}
             </span>
