@@ -1,3 +1,4 @@
+'use client'
 import { Backdrop } from "@/components/shared/backdrop"
 import { SignIn } from "@clerk/nextjs"
 
