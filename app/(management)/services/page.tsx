@@ -13,7 +13,7 @@ import { FadeIn } from "@/components/motion/fade-in"
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "UI/UX design, frontend development, backend development, and full stack solutions from Crafity.",
+    "UI/UX design, frontend development, backend development, and full stack solutions from CreaThink.",
   alternates: { canonical: "/services" },
 }
 

@@ -26,7 +26,7 @@ function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" render={<Link href="/admin" />}>
               <SparkleIcon className="size-4" />
-              <span className="font-heading font-semibold">Crafity Admin</span>
+              <span className="font-heading font-semibold">CreaThink Admin</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

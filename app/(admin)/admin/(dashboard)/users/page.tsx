@@ -46,7 +46,7 @@ export default async function AdminUsersPage() {
       ) : admins.length === 0 ? (
         <EmptyState
           title="No administrators yet"
-          description="Invite your first administrator to start managing Crafity."
+          description="Invite your first administrator to start managing CreaThink."
         />
       ) : (
         <UsersTable

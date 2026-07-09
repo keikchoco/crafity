@@ -6,10 +6,11 @@ import { Typography } from "@/components/shared/typography"
 import { Stack } from "@/components/shared/stack"
 import { SectionLabel } from "@/components/shared/section-label"
 import { FadeIn } from "@/components/motion/fade-in"
+import { CONTACT_EMAIL, SITE_NAME } from "@/lib/site"
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "How Crafity collects, uses, and protects the information you share with us.",
+  description: `How ${SITE_NAME} collects, uses, and protects the information you share with us.`,
   alternates: { canonical: "/privacy-policy" },
   robots: { index: true, follow: true },
 }
@@ -20,7 +21,7 @@ const sections = [
   {
     title: "1. Introduction",
     body: [
-      "This Privacy Policy explains how Crafity (\"we\", \"us\", or \"our\") collects, uses, and safeguards information when you visit our website or submit an inquiry through our contact and project forms.",
+      `This Privacy Policy explains how ${SITE_NAME} ("we", "us", or "our") collects, uses, and safeguards information when you visit our website or submit an inquiry through our contact and project forms.`,
       "By using our website, you agree to the practices described in this policy. If you do not agree, please discontinue use of the site.",
     ],
   },
@@ -66,7 +67,7 @@ const sections = [
   {
     title: "7. Your Rights",
     body: [
-      "You may request access to, correction of, or deletion of the personal information you have submitted to us by contacting hello@crafity.com.",
+      `You may request access to, correction of, or deletion of the personal information you have submitted to us by contacting ${CONTACT_EMAIL}.`,
       "You may opt out of future communications from us at any time by replying to any email or contacting us directly.",
     ],
   },
@@ -79,7 +80,7 @@ const sections = [
   {
     title: "9. Contact Us",
     body: [
-      "If you have questions about this Privacy Policy or how your information is handled, contact us at hello@crafity.com.",
+      `If you have questions about this Privacy Policy or how your information is handled, contact us at ${CONTACT_EMAIL}.`,
     ],
   },
 ]

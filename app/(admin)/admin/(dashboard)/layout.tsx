@@ -43,7 +43,7 @@ export default async function AdminLayout({
                   orientation="vertical"
                   className="mr-2 data-vertical:h-4 data-vertical:self-auto"
                 />
-                <span className="text-sm font-medium text-foreground">Crafity CMS</span>
+                <span className="text-sm font-medium text-foreground">CreaThink CMS</span>
               </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>

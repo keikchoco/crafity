@@ -21,7 +21,7 @@ function Hero() {
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75 motion-reduce:animate-none" />
               <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
             </span>
-            Crafity — Creative Development Studio
+            CreaThink — Creative Development Studio
           </span>
           <span className="hidden sm:inline">Design × Engineering</span>
         </FadeIn>

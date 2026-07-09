@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: "Blog",
-    description: "Insights on design, engineering, and building digital products from the Crafity team.",
+    description: "Insights on design, engineering, and building digital products from the CreaThink team.",
     alternates: { canonical: "/blog" },
   }
 }

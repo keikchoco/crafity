@@ -1,3 +1,5 @@
+import { SITE_NAME } from "@/lib/site"
+
 interface EmailContent {
   subject: string
   html: string
@@ -18,7 +20,7 @@ function baseTemplate(title: string, rows: { label: string; value: string }[]): 
     <div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:#f4f4f5;padding:32px 16px;">
       <div style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e4e4e7;">
         <div style="padding:20px 24px;border-bottom:1px solid #e4e4e7;">
-          <span style="font-size:16px;font-weight:600;color:#18181b;">Crafity</span>
+          <span style="font-size:16px;font-weight:600;color:#18181b;">${SITE_NAME}</span>
         </div>
         <div style="padding:24px;">
           <h1 style="font-size:18px;margin:0 0 16px;color:#18181b;">${escapeHtml(title)}</h1>

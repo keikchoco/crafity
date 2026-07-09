@@ -2,6 +2,7 @@ import { Navbar, type NavLink } from "@/components/shared/navbar"
 import { Footer, type FooterColumn } from "@/components/shared/footer"
 import { Backdrop } from "@/components/shared/backdrop"
 import { isFeatureEnabled } from "@/lib/feature-flags"
+import { CONTACT_EMAIL } from "@/lib/site"
 
 export default async function ManagementLayout({
   children,
@@ -32,7 +33,7 @@ export default async function ManagementLayout({
     {
       title: "Get in touch",
       links: [
-        { label: "hello@crafity.com", href: "mailto:hello@crafity.com" },
+        { label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
         { label: "Start a Project", href: "/contact/service-inquiry" },
       ],
     },

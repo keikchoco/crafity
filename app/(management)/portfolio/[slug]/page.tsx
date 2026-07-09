@@ -70,7 +70,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     description: project.shortDescription,
     image: project.coverImage,
     url: `${SITE_URL}/portfolio/${project.slug}`,
-    creator: { "@type": "Organization", name: "Crafity" },
+    creator: { "@type": "Organization", name: "CreaThink" },
     keywords: project.technologies.join(", "),
   }
 

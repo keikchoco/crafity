@@ -72,7 +72,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     description: post.excerpt,
     image: post.coverImage,
     author: { "@type": "Person", name: post.author },
-    publisher: { "@type": "Organization", name: "Crafity" },
+    publisher: { "@type": "Organization", name: "CreaThink" },
     datePublished: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
     dateModified: new Date(post.updatedAt).toISOString(),
     url: `${SITE_URL}/blog/${post.slug}`,

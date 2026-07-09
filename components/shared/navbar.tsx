@@ -51,7 +51,7 @@ function Wordmark() {
       <span className="flex size-7 items-center justify-center rounded-sm bg-foreground text-sm font-bold text-background transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
         C
       </span>
-      <span className="font-heading text-lg font-semibold tracking-tight">Crafity</span>
+      <span className="font-heading text-lg font-semibold tracking-tight">CreaThink</span>
     </Link>
   )
 }

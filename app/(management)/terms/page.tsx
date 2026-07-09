@@ -6,10 +6,11 @@ import { Typography } from "@/components/shared/typography"
 import { Stack } from "@/components/shared/stack"
 import { SectionLabel } from "@/components/shared/section-label"
 import { FadeIn } from "@/components/motion/fade-in"
+import { CONTACT_EMAIL, SITE_NAME } from "@/lib/site"
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
-  description: "The terms governing your use of the Crafity website and inquiries submitted through it.",
+  description: `The terms governing your use of the ${SITE_NAME} website and inquiries submitted through it.`,
   alternates: { canonical: "/terms" },
   robots: { index: true, follow: true },
 }
@@ -20,20 +21,20 @@ const sections = [
   {
     title: "1. Acceptance of Terms",
     body: [
-      "By accessing or using the Crafity website, you agree to be bound by these Terms & Conditions. If you do not agree with any part of these terms, please do not use this website.",
+      `By accessing or using the ${SITE_NAME} website, you agree to be bound by these Terms & Conditions. If you do not agree with any part of these terms, please do not use this website.`,
     ],
   },
   {
     title: "2. Use of the Website",
     body: [
-      "This website is provided for informational purposes to showcase Crafity's services, portfolio, and capabilities.",
+      `This website is provided for informational purposes to showcase ${SITE_NAME}'s services, portfolio, and capabilities.`,
       "You agree not to misuse the website, including attempting unauthorized access, disrupting site functionality, or submitting fraudulent or malicious information through our forms.",
     ],
   },
   {
     title: "3. Intellectual Property",
     body: [
-      "All content on this website, including text, graphics, logos, case studies, and design elements, is the property of Crafity unless otherwise noted, and is protected by applicable intellectual property laws.",
+      `All content on this website, including text, graphics, logos, case studies, and design elements, is the property of ${SITE_NAME} unless otherwise noted, and is protected by applicable intellectual property laws.`,
       "Content from published case studies may reference client work; such work remains the property of the respective clients and is featured with permission.",
       "You may not reproduce, distribute, or create derivative works from our content without prior written consent.",
     ],
@@ -41,8 +42,8 @@ const sections = [
   {
     title: "4. Inquiries & Proposals",
     body: [
-      "Submitting a contact or service inquiry form does not create a binding contract between you and Crafity.",
-      "Any project engagement, scope, pricing, and timeline will be governed by a separate, signed agreement between Crafity and the client.",
+      `Submitting a contact or service inquiry form does not create a binding contract between you and ${SITE_NAME}.`,
+      `Any project engagement, scope, pricing, and timeline will be governed by a separate, signed agreement between ${SITE_NAME} and the client.`,
       "We reserve the right to decline any project inquiry at our discretion.",
     ],
   },
@@ -56,7 +57,7 @@ const sections = [
   {
     title: "6. Limitation of Liability",
     body: [
-      "To the fullest extent permitted by law, Crafity shall not be liable for any indirect, incidental, or consequential damages arising from your use of this website.",
+      `To the fullest extent permitted by law, ${SITE_NAME} shall not be liable for any indirect, incidental, or consequential damages arising from your use of this website.`,
     ],
   },
   {
@@ -74,7 +75,7 @@ const sections = [
   {
     title: "9. Contact Us",
     body: [
-      "For questions about these Terms & Conditions, contact us at hello@crafity.com.",
+      `For questions about these Terms & Conditions, contact us at ${CONTACT_EMAIL}.`,
     ],
   },
 ]

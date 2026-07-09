@@ -11,10 +11,11 @@ import { ContactForm } from "@/components/public/contact-form"
 import { Button } from "@/components/ui/button"
 import { FadeIn } from "@/components/motion/fade-in"
 import { SlideUp } from "@/components/motion/slide-up"
+import { CONTACT_EMAIL, SITE_NAME } from "@/lib/site"
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with Crafity to talk about your next website or digital product.",
+  description: `Get in touch with ${SITE_NAME} to talk about your next website or digital product.`,
   alternates: { canonical: "/contact" },
 }
 
@@ -37,7 +38,7 @@ export default function ContactPage() {
               <Stack gap="default">
                 <Stack direction="row" gap="sm" align="center">
                   <MailIcon className="size-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">hello@crafity.com</span>
+                  <span className="text-sm text-muted-foreground">{CONTACT_EMAIL}</span>
                 </Stack>
                 <Stack direction="row" gap="sm" align="center">
                   <ClockIcon className="size-4 text-muted-foreground" />

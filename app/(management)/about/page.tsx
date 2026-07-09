@@ -12,7 +12,7 @@ import { SlideUp } from "@/components/motion/slide-up"
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Crafity is a two-person creative development studio building premium websites and digital products.",
+  description: "CreaThink is a two-person creative development studio building premium websites and digital products.",
   alternates: { canonical: "/about" },
 }
 
@@ -39,7 +39,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <FadeIn>
               <Stack gap="sm">
-                <SectionLabel index="01">About Crafity</SectionLabel>
+                <SectionLabel index="01">About CreaThink</SectionLabel>
                 <Typography variant="h1">
                   Two founders. One shared obsession with building things well.
                 </Typography>
@@ -47,7 +47,7 @@ export default function AboutPage() {
             </FadeIn>
             <SlideUp>
               <Typography variant="body-lg">
-                Crafity was started by two developer-designers who were tired of choosing between
+                CreaThink was started by two developer-designers who were tired of choosing between
                 beautiful interfaces and solid engineering. We believe the best digital products
                 come from teams that care about both — so that&apos;s how we work, on every
                 project we take on.

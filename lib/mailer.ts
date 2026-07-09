@@ -1,8 +1,10 @@
 import "server-only"
 import { Resend } from "resend"
 
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Crafity <onboarding@resend.dev>"
-export const ADMIN_NOTIFICATION_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "hello@crafity.com"
+import { CONTACT_EMAIL, SITE_NAME } from "@/lib/site"
+
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || `${SITE_NAME} <onboarding@resend.dev>`
+export const ADMIN_NOTIFICATION_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || CONTACT_EMAIL
 
 let resendClient: Resend | null = null
 

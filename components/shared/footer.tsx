@@ -27,7 +27,7 @@ function Footer({ logo, description, columns = [], bottomText, className }: Foot
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-[1.4fr_repeat(auto-fit,minmax(120px,1fr))] sm:gap-x-10 lg:gap-x-12">
           <div className="col-span-2 flex flex-col gap-4 sm:col-span-1">
             <span className="font-heading text-3xl font-semibold tracking-tight">
-              {logo ?? "Crafity"}
+              {logo ?? "CreaThink"}
             </span>
             {description && (
               <p className="max-w-sm text-sm text-muted-foreground">{description}</p>
@@ -61,7 +61,7 @@ function Footer({ logo, description, columns = [], bottomText, className }: Foot
         </div>
 
         <div className="mt-16 flex flex-col gap-4 border-t border-border pt-6 font-mono text-xs tracking-wide text-muted-foreground uppercase sm:flex-row sm:items-center sm:justify-between">
-          <span>{bottomText ?? `© ${year} Crafity. All rights reserved.`}</span>
+          <span>{bottomText ?? `© ${year} CreaThink. All rights reserved.`}</span>
           <span>Designed & built in-house</span>
         </div>
       </Container>

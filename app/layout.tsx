@@ -20,8 +20,8 @@ const fontMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Crafity — Digital Craftsmanship for Modern Businesses",
-    template: "%s | Crafity",
+    default: "CreaThink — Digital Craftsmanship for Modern Businesses",
+    template: "%s | CreaThink",
   },
   description: SITE_DESCRIPTION,
   openGraph: {

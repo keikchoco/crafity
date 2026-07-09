@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
   title: "Portfolio",
-  description: "Case studies and projects built by Crafity — web development, UI/UX design, and full stack platforms.",
+  description: "Case studies and projects built by CreaThink — web development, UI/UX design, and full stack platforms.",
   alternates: { canonical: "/portfolio" },
 }
 

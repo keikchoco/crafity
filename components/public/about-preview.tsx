@@ -21,7 +21,7 @@ function AboutPreview({ index }: AboutPreviewProps) {
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
           <FadeIn>
             <Stack gap="sm">
-              <SectionLabel index={index}>Why Crafity</SectionLabel>
+              <SectionLabel index={index}>Why CreaThink</SectionLabel>
               <Typography variant="h2">
                 A small studio with senior-level engineering and design craft.
               </Typography>
@@ -31,7 +31,7 @@ function AboutPreview({ index }: AboutPreviewProps) {
           <SlideUp>
             <Stack gap="lg">
               <Typography variant="body-lg">
-                Crafity is built by two founders who care equally about how a product looks and
+                CreaThink is built by two founders who care equally about how a product looks and
                 how it&apos;s engineered underneath. We work closely with every client, from the
                 first sketch to the last deployment, so nothing gets lost in translation.
               </Typography>
