@@ -1,6 +1,6 @@
 "use client"
 
-import Link from "next/link"
+import * as React from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
@@ -10,8 +10,12 @@ import {
   restoreProjectAction,
   deleteProjectAction,
 } from "@/actions/projects"
+import type { InferredProjectInput } from "@/schemas/project.schema"
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table"
 import { Button } from "@/components/ui/button"
+import { FormDialog } from "@/components/admin/form-dialog"
+import { ConfirmDialog } from "@/components/admin/confirm-dialog"
+import { ProjectForm } from "@/components/admin/project-form"
 
 export interface ProjectRow {
   id: string
@@ -22,6 +26,7 @@ export interface ProjectRow {
   featured: boolean
   deletedAt: string | null
   createdAt: string
+  defaultValues: InferredProjectInput
 }
 
 interface ProjectsTableProps {
@@ -33,6 +38,9 @@ interface ProjectsTableProps {
 
 function ProjectsTable({ rows, total, page, limit }: ProjectsTableProps) {
   const router = useRouter()
+  const [editingRow, setEditingRow] = React.useState<ProjectRow | null>(null)
+  const [deletingRow, setDeletingRow] = React.useState<ProjectRow | null>(null)
+  const [isDeleting, setIsDeleting] = React.useState(false)
 
   async function runAction(
     action: (id: string) => Promise<{ success: boolean; error?: { message: string } }>,
@@ -48,15 +56,33 @@ function ProjectsTable({ rows, total, page, limit }: ProjectsTableProps) {
     router.refresh()
   }
 
+  async function handleDeleteConfirm() {
+    if (!deletingRow) return
+    setIsDeleting(true)
+    const response = await deleteProjectAction(deletingRow.id)
+    setIsDeleting(false)
+    if (!response.success) {
+      toast.error(response.error?.message ?? "Something went wrong")
+      return
+    }
+    toast.success("Project deleted")
+    setDeletingRow(null)
+    router.refresh()
+  }
+
   const columns: DataTableColumn<ProjectRow>[] = [
     {
       key: "title",
       label: "Title",
       sortable: true,
       render: (row) => (
-        <Link href={`/admin/projects/${row.id}`} className="font-medium hover:underline">
+        <button
+          type="button"
+          className="font-medium hover:underline"
+          onClick={() => setEditingRow(row)}
+        >
           {row.title}
-        </Link>
+        </button>
       ),
     },
     { key: "category", label: "Category", render: (row) => row.category },
@@ -78,55 +104,86 @@ function ProjectsTable({ rows, total, page, limit }: ProjectsTableProps) {
   ]
 
   return (
-    <DataTable
-      columns={columns}
-      rows={rows}
-      total={total}
-      page={page}
-      limit={limit}
-      basePath="/admin/projects"
-      getRowId={(row) => row.id}
-      searchPlaceholder="Search projects..."
-      rowActions={(row) =>
-        row.deletedAt ? (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => runAction(restoreProjectAction, row.id, "Project restored")}
-          >
-            Restore
-          </Button>
-        ) : (
-          <>
-            {row.status !== "published" && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => runAction(publishProjectAction, row.id, "Project published")}
-              >
-                Publish
-              </Button>
-            )}
-            {row.status !== "archived" && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => runAction(archiveProjectAction, row.id, "Project archived")}
-              >
-                Archive
-              </Button>
-            )}
+    <>
+      <DataTable
+        columns={columns}
+        rows={rows}
+        total={total}
+        page={page}
+        limit={limit}
+        basePath="/admin/projects"
+        getRowId={(row) => row.id}
+        searchPlaceholder="Search projects..."
+        rowActions={(row) =>
+          row.deletedAt ? (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              onClick={() => runAction(deleteProjectAction, row.id, "Project deleted")}
+              onClick={() => runAction(restoreProjectAction, row.id, "Project restored")}
             >
-              Delete
+              Restore
             </Button>
-          </>
-        )
-      }
-    />
+          ) : (
+            <>
+              {row.status !== "published" && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => runAction(publishProjectAction, row.id, "Project published")}
+                >
+                  Publish
+                </Button>
+              )}
+              {row.status !== "archived" && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => runAction(archiveProjectAction, row.id, "Project archived")}
+                >
+                  Archive
+                </Button>
+              )}
+              <Button variant="outline" size="sm" onClick={() => setEditingRow(row)}>
+                Edit
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => setDeletingRow(row)}>
+                Delete
+              </Button>
+            </>
+          )
+        }
+      />
+
+      <FormDialog
+        open={editingRow !== null}
+        onOpenChange={(open) => !open && setEditingRow(null)}
+        title="Edit project"
+      >
+        {editingRow && (
+          <ProjectForm
+            projectId={editingRow.id}
+            defaultValues={editingRow.defaultValues}
+            onSuccess={() => {
+              setEditingRow(null)
+              router.refresh()
+            }}
+          />
+        )}
+      </FormDialog>
+
+      <ConfirmDialog
+        open={deletingRow !== null}
+        onOpenChange={(open) => !open && setDeletingRow(null)}
+        title="Delete project?"
+        description={
+          deletingRow
+            ? `"${deletingRow.title}" will be moved to trash. You can restore it later.`
+            : undefined
+        }
+        isConfirming={isDeleting}
+        onConfirm={handleDeleteConfirm}
+      />
+    </>
   )
 }
 

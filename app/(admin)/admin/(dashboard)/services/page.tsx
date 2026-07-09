@@ -1,12 +1,10 @@
-import Link from "next/link"
-
 import { requirePermission } from "@/lib/permissions"
 import { serviceService } from "@/services/service.service"
 import { Typography } from "@/components/shared/typography"
 import { ErrorState } from "@/components/shared/error-state"
 import { EmptyState } from "@/components/shared/empty-state"
-import { Button } from "@/components/ui/button"
 import { ServicesTable, type ServiceRow } from "@/components/admin/services-table"
+import { NewServiceButton } from "@/components/admin/new-service-button"
 
 interface AdminServicesPageProps {
   searchParams: Promise<Record<string, string | undefined>>
@@ -38,6 +36,14 @@ export default async function AdminServicesPage({ searchParams }: AdminServicesP
       status: item.status,
       order: item.order,
       createdAt: new Date(item.createdAt).toISOString(),
+      defaultValues: {
+        title: item.title,
+        slug: item.slug,
+        description: item.description,
+        icon: item.icon,
+        features: item.features,
+        order: item.order,
+      },
     }))
     total = result.total
   } catch {
@@ -50,7 +56,7 @@ export default async function AdminServicesPage({ searchParams }: AdminServicesP
         <Typography as="h1" variant="h1">
           Services
         </Typography>
-        <Button render={<Link href="/admin/services/new" />}>New Service</Button>
+        <NewServiceButton />
       </div>
 
       {loadFailed ? (

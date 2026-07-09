@@ -27,9 +27,15 @@ interface TestimonialFormProps {
   testimonialId?: string
   defaultValues?: InferredTestimonialInput
   projectOptions: { id: string; title: string }[]
+  onSuccess?: () => void
 }
 
-function TestimonialForm({ testimonialId, defaultValues, projectOptions }: TestimonialFormProps) {
+function TestimonialForm({
+  testimonialId,
+  defaultValues,
+  projectOptions,
+  onSuccess,
+}: TestimonialFormProps) {
   const [formError, setFormError] = React.useState<string | null>(null)
 
   const form = useForm({
@@ -47,7 +53,7 @@ function TestimonialForm({ testimonialId, defaultValues, projectOptions }: Testi
       }
 
       toast.success(testimonialId ? "Testimonial updated" : "Testimonial created")
-      window.location.href = "/admin/testimonials"
+      onSuccess?.()
     },
   })
 

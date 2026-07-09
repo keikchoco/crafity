@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { FormField } from "@/components/forms/form-field"
 import { FormError } from "@/components/forms/form-error"
 import { SubmitButton } from "@/components/forms/submit-button"
+import { TagInput } from "@/components/forms/tag-input"
 
 const emptyService: InferredServiceInput = {
   title: "",
@@ -24,30 +25,20 @@ const emptyService: InferredServiceInput = {
 interface ServiceFormProps {
   serviceId?: string
   defaultValues?: InferredServiceInput
+  onSuccess?: () => void
 }
 
-function ServiceForm({ serviceId, defaultValues }: ServiceFormProps) {
+function ServiceForm({ serviceId, defaultValues, onSuccess }: ServiceFormProps) {
   const [formError, setFormError] = React.useState<string | null>(null)
-  const [featuresText, setFeaturesText] = React.useState(
-    (defaultValues?.features ?? []).join(", "),
-  )
 
   const form = useForm({
     defaultValues: defaultValues ?? emptyService,
     onSubmit: async ({ value }) => {
       setFormError(null)
 
-      const payload = {
-        ...value,
-        features: featuresText
-          .split(",")
-          .map((feature) => feature.trim())
-          .filter(Boolean),
-      }
-
       const response = serviceId
-        ? await updateServiceAction(serviceId, payload)
-        : await createServiceAction(payload)
+        ? await updateServiceAction(serviceId, value)
+        : await createServiceAction(value)
 
       if (!response.success) {
         setFormError(response.error.message)
@@ -55,7 +46,7 @@ function ServiceForm({ serviceId, defaultValues }: ServiceFormProps) {
       }
 
       toast.success(serviceId ? "Service updated" : "Service created")
-      window.location.href = "/admin/services"
+      onSuccess?.()
     },
   })
 
@@ -121,13 +112,13 @@ function ServiceForm({ serviceId, defaultValues }: ServiceFormProps) {
         )}
       </form.Field>
 
-      <FormField label="Features" htmlFor="features" description="Comma-separated">
-        <Input
-          id="features"
-          value={featuresText}
-          onChange={(event) => setFeaturesText(event.target.value)}
-        />
-      </FormField>
+      <form.Field name="features">
+        {(field) => (
+          <FormField label="Features" htmlFor="features" description="Press comma or enter to add">
+            <TagInput id="features" value={field.state.value} onChange={field.handleChange} />
+          </FormField>
+        )}
+      </form.Field>
 
       <form.Field name="order">
         {(field) => (

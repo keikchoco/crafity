@@ -14,6 +14,7 @@ export interface ProjectDocument extends Document {
   client: string
   timeline: string
   role: string
+  websiteLink: string
   problem: string
   research: string
   solution: string
@@ -64,6 +65,7 @@ const projectSchema = new Schema<ProjectDocument>(
     client: { type: String, required: true },
     timeline: { type: String, required: true },
     role: { type: String, required: true },
+    websiteLink: { type: String, default: "" },
     problem: { type: String, default: "" },
     research: { type: String, default: "" },
     solution: { type: String, default: "" },

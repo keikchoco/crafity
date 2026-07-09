@@ -1,12 +1,11 @@
-import Link from "next/link"
-
 import { requirePermission } from "@/lib/permissions"
 import { testimonialService } from "@/services/testimonial.service"
+import { projectService } from "@/services/project.service"
 import { Typography } from "@/components/shared/typography"
 import { ErrorState } from "@/components/shared/error-state"
 import { EmptyState } from "@/components/shared/empty-state"
-import { Button } from "@/components/ui/button"
 import { TestimonialsTable, type TestimonialRow } from "@/components/admin/testimonials-table"
+import { NewTestimonialButton } from "@/components/admin/new-testimonial-button"
 
 interface AdminTestimonialsPageProps {
   searchParams: Promise<Record<string, string | undefined>>
@@ -45,10 +44,27 @@ export default async function AdminTestimonialsPage({ searchParams }: AdminTesti
       status: item.status,
       order: item.order,
       createdAt: new Date(item.createdAt).toISOString(),
+      defaultValues: {
+        clientName: item.clientName,
+        position: item.position,
+        company: item.company,
+        image: item.image,
+        review: item.review,
+        projectId: item.projectId ? String(item.projectId) : null,
+        order: item.order,
+      },
     }))
     total = result.total
   } catch {
     loadFailed = true
+  }
+
+  let projectOptions: { id: string; title: string }[] = []
+  try {
+    const result = await projectService.list({ status: "published" }, { limit: 100 })
+    projectOptions = result.items.map((item) => ({ id: String(item._id), title: item.title }))
+  } catch {
+    projectOptions = []
   }
 
   return (
@@ -57,7 +73,7 @@ export default async function AdminTestimonialsPage({ searchParams }: AdminTesti
         <Typography as="h1" variant="h1">
           Testimonials
         </Typography>
-        <Button render={<Link href="/admin/testimonials/new" />}>New Testimonial</Button>
+        <NewTestimonialButton projectOptions={projectOptions} />
       </div>
 
       {loadFailed ? (
@@ -68,7 +84,13 @@ export default async function AdminTestimonialsPage({ searchParams }: AdminTesti
       ) : rows.length === 0 ? (
         <EmptyState title="No testimonials yet" description="Add your first client review." />
       ) : (
-        <TestimonialsTable rows={rows} total={total} page={page} limit={limit} />
+        <TestimonialsTable
+          rows={rows}
+          total={total}
+          page={page}
+          limit={limit}
+          projectOptions={projectOptions}
+        />
       )}
     </div>
   )

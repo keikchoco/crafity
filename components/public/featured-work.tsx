@@ -14,7 +14,10 @@ import { SlideUp } from "@/components/motion/slide-up"
 import { ProjectCard } from "@/components/public/project-card"
 
 interface FeaturedWorkProps {
-  projects: Pick<Project, "slug" | "title" | "shortDescription" | "coverImage" | "category" | "technologies">[]
+  projects: Pick<
+    Project,
+    "slug" | "title" | "shortDescription" | "coverImage" | "category" | "technologies" | "websiteLink"
+  >[]
   index?: string
 }
 

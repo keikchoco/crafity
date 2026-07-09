@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { FormField } from "@/components/forms/form-field"
 import { FormError } from "@/components/forms/form-error"
 import { SubmitButton } from "@/components/forms/submit-button"
+import { TagInput } from "@/components/forms/tag-input"
 import { MediaPicker } from "@/components/admin/media-picker"
 
 const emptyPost: InferredBlogPostInput = {
@@ -28,28 +29,20 @@ const emptyPost: InferredBlogPostInput = {
 interface BlogPostFormProps {
   postId?: string
   defaultValues?: InferredBlogPostInput
+  onSuccess?: () => void
 }
 
-function BlogPostForm({ postId, defaultValues }: BlogPostFormProps) {
+function BlogPostForm({ postId, defaultValues, onSuccess }: BlogPostFormProps) {
   const [formError, setFormError] = React.useState<string | null>(null)
-  const [tagsText, setTagsText] = React.useState((defaultValues?.tags ?? []).join(", "))
 
   const form = useForm({
     defaultValues: defaultValues ?? emptyPost,
     onSubmit: async ({ value }) => {
       setFormError(null)
 
-      const payload = {
-        ...value,
-        tags: tagsText
-          .split(",")
-          .map((tag) => tag.trim())
-          .filter(Boolean),
-      }
-
       const response = postId
-        ? await updateBlogPostAction(postId, payload)
-        : await createBlogPostAction(payload)
+        ? await updateBlogPostAction(postId, value)
+        : await createBlogPostAction(value)
 
       if (!response.success) {
         setFormError(response.error.message)
@@ -57,7 +50,7 @@ function BlogPostForm({ postId, defaultValues }: BlogPostFormProps) {
       }
 
       toast.success(postId ? "Post updated" : "Post created")
-      window.location.href = "/admin/blog"
+      onSuccess?.()
     },
   })
 
@@ -139,13 +132,13 @@ function BlogPostForm({ postId, defaultValues }: BlogPostFormProps) {
           )}
         </form.Field>
 
-        <FormField label="Tags" htmlFor="tags" description="Comma-separated">
-          <Input
-            id="tags"
-            value={tagsText}
-            onChange={(event) => setTagsText(event.target.value)}
-          />
-        </FormField>
+        <form.Field name="tags">
+          {(field) => (
+            <FormField label="Tags" htmlFor="tags" description="Press comma or enter to add">
+              <TagInput id="tags" value={field.state.value} onChange={field.handleChange} />
+            </FormField>
+          )}
+        </form.Field>
       </div>
 
       <form.Field name="content">

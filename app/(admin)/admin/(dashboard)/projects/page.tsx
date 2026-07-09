@@ -1,12 +1,10 @@
-import Link from "next/link"
-
 import { requirePermission } from "@/lib/permissions"
 import { projectService } from "@/services/project.service"
 import { Typography } from "@/components/shared/typography"
 import { ErrorState } from "@/components/shared/error-state"
 import { EmptyState } from "@/components/shared/empty-state"
-import { Button } from "@/components/ui/button"
 import { ProjectsTable, type ProjectRow } from "@/components/admin/projects-table"
+import { NewProjectButton } from "@/components/admin/new-project-button"
 
 interface AdminProjectsPageProps {
   searchParams: Promise<Record<string, string | undefined>>
@@ -44,6 +42,28 @@ export default async function AdminProjectsPage({ searchParams }: AdminProjectsP
       featured: item.featured,
       deletedAt: item.deletedAt ? new Date(item.deletedAt).toISOString() : null,
       createdAt: new Date(item.createdAt).toISOString(),
+      defaultValues: {
+        title: item.title,
+        slug: item.slug,
+        shortDescription: item.shortDescription,
+        description: item.description,
+        coverImage: item.coverImage,
+        gallery: item.gallery,
+        category: item.category,
+        technologies: item.technologies,
+        client: item.client,
+        timeline: item.timeline,
+        role: item.role,
+        websiteLink: item.websiteLink,
+        problem: item.problem,
+        research: item.research,
+        solution: item.solution,
+        designProcess: item.designProcess,
+        developmentProcess: item.developmentProcess,
+        results: item.results,
+        featured: item.featured,
+        seo: item.seo,
+      },
     }))
     total = result.total
   } catch {
@@ -56,7 +76,7 @@ export default async function AdminProjectsPage({ searchParams }: AdminProjectsP
         <Typography as="h1" variant="h1">
           Projects
         </Typography>
-        <Button render={<Link href="/admin/projects/new" />}>New Project</Button>
+        <NewProjectButton />
       </div>
 
       {loadFailed ? (

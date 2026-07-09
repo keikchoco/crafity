@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button"
 import { FormField } from "@/components/forms/form-field"
 import { FormError } from "@/components/forms/form-error"
 import { SubmitButton } from "@/components/forms/submit-button"
+import { TagInput } from "@/components/forms/tag-input"
 import { MediaPicker } from "@/components/admin/media-picker"
 
 const emptyProject: InferredProjectInput = {
@@ -27,6 +28,7 @@ const emptyProject: InferredProjectInput = {
   client: "",
   timeline: "",
   role: "",
+  websiteLink: "",
   problem: "",
   research: "",
   solution: "",
@@ -40,30 +42,20 @@ const emptyProject: InferredProjectInput = {
 interface ProjectFormProps {
   projectId?: string
   defaultValues?: InferredProjectInput
+  onSuccess?: () => void
 }
 
-function ProjectForm({ projectId, defaultValues }: ProjectFormProps) {
+function ProjectForm({ projectId, defaultValues, onSuccess }: ProjectFormProps) {
   const [formError, setFormError] = React.useState<string | null>(null)
-  const [technologiesText, setTechnologiesText] = React.useState(
-    (defaultValues?.technologies ?? []).join(", "),
-  )
 
   const form = useForm({
     defaultValues: defaultValues ?? emptyProject,
     onSubmit: async ({ value }) => {
       setFormError(null)
 
-      const payload = {
-        ...value,
-        technologies: technologiesText
-          .split(",")
-          .map((tech) => tech.trim())
-          .filter(Boolean),
-      }
-
       const response = projectId
-        ? await updateProjectAction(projectId, payload)
-        : await createProjectAction(payload)
+        ? await updateProjectAction(projectId, value)
+        : await createProjectAction(value)
 
       if (!response.success) {
         setFormError(response.error.message)
@@ -71,7 +63,7 @@ function ProjectForm({ projectId, defaultValues }: ProjectFormProps) {
       }
 
       toast.success(projectId ? "Project updated" : "Project created")
-      window.location.href = "/admin/projects"
+      onSuccess?.()
     },
   })
 
@@ -180,13 +172,17 @@ function ProjectForm({ projectId, defaultValues }: ProjectFormProps) {
           )}
         </form.Field>
 
-        <FormField label="Technologies" htmlFor="technologies" description="Comma-separated">
-          <Input
-            id="technologies"
-            value={technologiesText}
-            onChange={(event) => setTechnologiesText(event.target.value)}
-          />
-        </FormField>
+        <form.Field name="technologies">
+          {(field) => (
+            <FormField
+              label="Technologies"
+              htmlFor="technologies"
+              description="Press comma or enter to add"
+            >
+              <TagInput id="technologies" value={field.state.value} onChange={field.handleChange} />
+            </FormField>
+          )}
+        </form.Field>
 
         <form.Field name="client">
           {(field) => (
@@ -217,6 +213,24 @@ function ProjectForm({ projectId, defaultValues }: ProjectFormProps) {
             <FormField label="Role" htmlFor="role" required>
               <Input
                 id="role"
+                value={field.state.value}
+                onChange={(event) => field.handleChange(event.target.value)}
+              />
+            </FormField>
+          )}
+        </form.Field>
+
+        <form.Field name="websiteLink">
+          {(field) => (
+            <FormField
+              label="Website link"
+              htmlFor="websiteLink"
+              description="Live project URL, optional"
+            >
+              <Input
+                id="websiteLink"
+                type="url"
+                placeholder="https://example.com"
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
               />

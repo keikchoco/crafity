@@ -1,12 +1,10 @@
-import Link from "next/link"
-
 import { requirePermission } from "@/lib/permissions"
 import { blogPostService } from "@/services/blog-post.service"
 import { Typography } from "@/components/shared/typography"
 import { ErrorState } from "@/components/shared/error-state"
 import { EmptyState } from "@/components/shared/empty-state"
-import { Button } from "@/components/ui/button"
 import { BlogPostsTable, type BlogPostRow } from "@/components/admin/blog-posts-table"
+import { NewBlogPostButton } from "@/components/admin/new-blog-post-button"
 
 interface AdminBlogPageProps {
   searchParams: Promise<Record<string, string | undefined>>
@@ -38,6 +36,17 @@ export default async function AdminBlogPage({ searchParams }: AdminBlogPageProps
       category: item.category,
       status: item.status,
       createdAt: new Date(item.createdAt).toISOString(),
+      defaultValues: {
+        title: item.title,
+        slug: item.slug,
+        excerpt: item.excerpt,
+        content: item.content,
+        coverImage: item.coverImage,
+        author: item.author,
+        category: item.category,
+        tags: item.tags,
+        seo: item.seo,
+      },
     }))
     total = result.total
   } catch {
@@ -50,7 +59,7 @@ export default async function AdminBlogPage({ searchParams }: AdminBlogPageProps
         <Typography as="h1" variant="h1">
           Blog
         </Typography>
-        <Button render={<Link href="/admin/blog/new" />}>New Post</Button>
+        <NewBlogPostButton />
       </div>
 
       {loadFailed ? (

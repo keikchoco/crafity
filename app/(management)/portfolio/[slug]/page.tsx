@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
+import { ArrowUpRightIcon } from "lucide-react"
 
 import { projectService } from "@/services/project.service"
 import { SITE_URL } from "@/lib/site"
@@ -9,6 +10,7 @@ import { Container } from "@/components/shared/container"
 import { Typography } from "@/components/shared/typography"
 import { Stack } from "@/components/shared/stack"
 import { CtaSection } from "@/components/public/cta-section"
+import { Button } from "@/components/ui/button"
 import { FadeIn } from "@/components/motion/fade-in"
 import { SlideUp } from "@/components/motion/slide-up"
 
@@ -117,6 +119,18 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                 <DetailRow label="Client" value={project.client} />
                 <DetailRow label="Timeline" value={project.timeline} />
                 <DetailRow label="Role" value={project.role} />
+                {project.websiteLink && (
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    render={
+                      <a href={project.websiteLink} target="_blank" rel="noopener noreferrer" />
+                    }
+                  >
+                    Visit website
+                    <ArrowUpRightIcon />
+                  </Button>
+                )}
                 {project.technologies.length > 0 && (
                   <div>
                     <span className="text-xs uppercase tracking-wide text-muted-foreground">

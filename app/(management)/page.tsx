@@ -44,6 +44,7 @@ export default async function HomePage() {
           coverImage: project.coverImage,
           category: project.category,
           technologies: project.technologies,
+          websiteLink: project.websiteLink,
         }))}
       />
 

@@ -94,6 +94,7 @@ export default async function PortfolioPage({ searchParams }: PortfolioPageProps
                     coverImage: project.coverImage,
                     category: project.category,
                     technologies: project.technologies,
+                    websiteLink: project.websiteLink,
                   }}
                 />
               </SlideUp>

@@ -27,6 +27,7 @@ export interface Project extends Lifecycle {
   client: string
   timeline: string
   role: string
+  websiteLink: string
   problem: string
   research: string
   solution: string

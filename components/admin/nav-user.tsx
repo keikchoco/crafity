@@ -10,10 +10,10 @@ function NavUser() {
 
   return (
     <SidebarMenu>
-      <SidebarMenuItem className="flex items-center gap-2 px-2 py-1.5">
+      <SidebarMenuItem className="flex flex-col gap-2 px-2 py-1.5">
         <UserButton showName appearance={{ elements: { userButtonBox: "flex-row-reverse" } }} />
         {admin.isSuperAdmin && (
-          <span className="ml-auto rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+          <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
             Super Admin
           </span>
         )}

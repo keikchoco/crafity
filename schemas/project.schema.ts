@@ -28,6 +28,7 @@ export const projectSchema = z.object({
   client: z.string().min(1, "Client is required"),
   timeline: z.string().min(1, "Timeline is required"),
   role: z.string().min(1, "Role is required"),
+  websiteLink: z.union([z.string().url("Enter a valid URL"), z.literal("")]).default(""),
   problem: z.string().default(""),
   research: z.string().default(""),
   solution: z.string().default(""),
