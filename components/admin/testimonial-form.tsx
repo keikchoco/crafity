@@ -3,6 +3,7 @@
 import * as React from "react"
 import { useForm } from "@tanstack/react-form"
 import { toast } from "sonner"
+import { StarIcon } from "lucide-react"
 
 import { createTestimonialAction, updateTestimonialAction } from "@/actions/testimonials"
 import type { InferredTestimonialInput } from "@/schemas/testimonial.schema"
@@ -12,6 +13,7 @@ import { FormField } from "@/components/forms/form-field"
 import { FormError } from "@/components/forms/form-error"
 import { SubmitButton } from "@/components/forms/submit-button"
 import { MediaPicker } from "@/components/admin/media-picker"
+import { cn } from "@/lib/utils"
 
 const emptyTestimonial: InferredTestimonialInput = {
   clientName: "",
@@ -19,6 +21,7 @@ const emptyTestimonial: InferredTestimonialInput = {
   company: "",
   image: "",
   review: "",
+  rating: 5,
   projectId: null,
   order: 0,
 }
@@ -133,6 +136,34 @@ function TestimonialForm({
               onChange={(event) => field.handleChange(event.target.value)}
               rows={4}
             />
+          </FormField>
+        )}
+      </form.Field>
+
+      <form.Field name="rating">
+        {(field) => (
+          <FormField label="Rating" htmlFor="rating" required>
+            <div className="flex items-center gap-1" id="rating">
+              {[1, 2, 3, 4, 5].map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  aria-label={`Rate ${value} out of 5 stars`}
+                  aria-pressed={field.state.value >= value}
+                  onClick={() => field.handleChange(value)}
+                  className="p-0.5"
+                >
+                  <StarIcon
+                    className={cn(
+                      "size-5 transition-colors",
+                      field.state.value >= value
+                        ? "fill-primary text-primary"
+                        : "fill-none text-muted-foreground/40",
+                    )}
+                  />
+                </button>
+              ))}
+            </div>
           </FormField>
         )}
       </form.Field>

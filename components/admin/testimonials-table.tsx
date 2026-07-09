@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button"
 import { FormDialog } from "@/components/admin/form-dialog"
 import { ConfirmDialog } from "@/components/admin/confirm-dialog"
 import { TestimonialForm } from "@/components/admin/testimonial-form"
+import { StarRating } from "@/components/shared/star-rating"
 
 export interface TestimonialRow {
   id: string
@@ -24,6 +25,7 @@ export interface TestimonialRow {
   company: string
   status: "draft" | "published" | "archived"
   order: number
+  rating: number
   createdAt: string
   defaultValues: InferredTestimonialInput
 }
@@ -94,6 +96,7 @@ function TestimonialsTable({ rows, total, page, limit, projectOptions }: Testimo
       ),
     },
     { key: "company", label: "Company", render: (row) => row.company },
+    { key: "rating", label: "Rating", render: (row) => <StarRating rating={row.rating} /> },
     { key: "status", label: "Status", render: (row) => <span className="capitalize">{row.status}</span> },
     { key: "order", label: "Order", render: (row) => row.order },
   ]

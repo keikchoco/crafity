@@ -81,6 +81,7 @@ export default async function HomePage() {
           company: testimonial.company,
           image: testimonial.image,
           review: testimonial.review,
+          rating: testimonial.rating,
         }))}
       />
 

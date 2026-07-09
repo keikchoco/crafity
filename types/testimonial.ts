@@ -7,6 +7,7 @@ export interface Testimonial {
   company: string
   image: string
   review: string
+  rating: number
   projectId: string | null
   order: number
   status: ContentStatus

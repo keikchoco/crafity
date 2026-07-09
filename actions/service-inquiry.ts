@@ -4,8 +4,9 @@ import { serviceInquiryService } from "@/services/service-inquiry.service"
 import { ValidationError, formatZodError } from "@/lib/errors"
 import { isRateLimited } from "@/lib/rate-limit"
 import { isFeatureEnabled } from "@/lib/feature-flags"
-import { sendEmail, ADMIN_NOTIFICATION_EMAIL } from "@/lib/mailer"
-import { serviceInquiryNotificationEmail } from "@/lib/email-templates"
+import { sendEmail, ADMIN_NOTIFICATION_EMAIL, NOTIFICATION_CC_EMAIL } from "@/lib/mailer"
+import { ServiceInquiryNotificationEmail } from "@/emails/service-inquiry-notification-email"
+import { ServiceInquiryConfirmationEmail } from "@/emails/service-inquiry-confirmation-email"
 import { successResponse, errorResponse } from "@/lib/api-response"
 import { serviceInquirySchema } from "@/schemas/service-inquiry.schema"
 import type { ApiResponse } from "@/types/api"
@@ -44,8 +45,18 @@ export async function submitServiceInquiryAction(
 
     await serviceInquiryService.create(parsed.data)
 
-    const { subject, html } = serviceInquiryNotificationEmail(parsed.data)
-    await sendEmail({ to: ADMIN_NOTIFICATION_EMAIL, subject, html })
+    await sendEmail({
+      to: ADMIN_NOTIFICATION_EMAIL,
+      subject: `New service inquiry from ${parsed.data.name}`,
+      react: ServiceInquiryNotificationEmail(parsed.data),
+    })
+
+    await sendEmail({
+      to: parsed.data.email,
+      cc: NOTIFICATION_CC_EMAIL,
+      subject: "We've received your inquiry",
+      react: ServiceInquiryConfirmationEmail(parsed.data),
+    })
 
     return successResponse(null)
   } catch (error) {

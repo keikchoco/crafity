@@ -43,6 +43,7 @@ export default async function AdminTestimonialsPage({ searchParams }: AdminTesti
       company: item.company,
       status: item.status,
       order: item.order,
+      rating: item.rating,
       createdAt: new Date(item.createdAt).toISOString(),
       defaultValues: {
         clientName: item.clientName,
@@ -50,6 +51,7 @@ export default async function AdminTestimonialsPage({ searchParams }: AdminTesti
         company: item.company,
         image: item.image,
         review: item.review,
+        rating: item.rating,
         projectId: item.projectId ? String(item.projectId) : null,
         order: item.order,
       },

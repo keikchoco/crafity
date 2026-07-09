@@ -8,11 +8,15 @@ import { Typography } from "@/components/shared/typography"
 import { Stack } from "@/components/shared/stack"
 import { SectionLabel } from "@/components/shared/section-label"
 import { EmptyState } from "@/components/shared/empty-state"
+import { StarRating } from "@/components/shared/star-rating"
 import { FadeIn } from "@/components/motion/fade-in"
 import { SlideUp } from "@/components/motion/slide-up"
 
 interface TestimonialsSectionProps {
-  testimonials: Pick<Testimonial, "_id" | "clientName" | "position" | "company" | "image" | "review">[]
+  testimonials: Pick<
+    Testimonial,
+    "_id" | "clientName" | "position" | "company" | "image" | "review" | "rating"
+  >[]
   index?: string
 }
 
@@ -37,7 +41,10 @@ function TestimonialsSection({ testimonials, index }: TestimonialsSectionProps) 
             {testimonials.map((testimonial, i) => (
               <SlideUp key={testimonial._id} delay={i * 0.08}>
                 <div className="flex h-full flex-col gap-6 border-t border-border pt-6">
-                  <QuoteIcon className="size-6 text-primary" />
+                  <div className="flex items-center justify-between">
+                    <QuoteIcon className="size-6 text-primary" />
+                    <StarRating rating={testimonial.rating} />
+                  </div>
                   <p className="text-lg leading-relaxed text-foreground">
                     {testimonial.review}
                   </p>
