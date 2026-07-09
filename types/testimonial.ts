@@ -5,7 +5,7 @@ export interface Testimonial {
   clientName: string
   position: string
   company: string
-  image: string
+  image?: string
   review: string
   rating: number
   projectId: string | null

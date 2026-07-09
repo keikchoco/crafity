@@ -49,7 +49,7 @@ export default async function AdminTestimonialsPage({ searchParams }: AdminTesti
         clientName: item.clientName,
         position: item.position,
         company: item.company,
-        image: item.image,
+        image: item.image ?? "",
         review: item.review,
         rating: item.rating,
         projectId: item.projectId ? String(item.projectId) : null,

@@ -5,7 +5,7 @@ export interface TestimonialDocument extends Document {
   clientName: string
   position: string
   company: string
-  image: string
+  image?: string
   review: string
   rating: number
   projectId: Types.ObjectId | null
@@ -20,7 +20,7 @@ const testimonialSchema = new Schema<TestimonialDocument>(
     clientName: { type: String, required: true },
     position: { type: String, required: true },
     company: { type: String, required: true },
-    image: { type: String, required: true },
+    image: { type: String, default: "" },
     review: { type: String, required: true },
     rating: { type: Number, min: 1, max: 5, default: 5 },
     projectId: { type: Schema.Types.ObjectId, ref: "Project", default: null },

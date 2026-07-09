@@ -121,8 +121,8 @@ function TestimonialForm({
 
       <form.Field name="image">
         {(field) => (
-          <FormField label="Profile image" htmlFor="image" required>
-            <MediaPicker value={field.state.value} onSelect={field.handleChange} />
+          <FormField label="Profile image" htmlFor="image" description="Optional — initials will be shown if left empty">
+            <MediaPicker value={field.state.value ?? ""} onSelect={field.handleChange} />
           </FormField>
         )}
       </form.Field>
