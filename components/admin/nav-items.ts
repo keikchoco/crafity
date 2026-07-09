@@ -38,7 +38,7 @@ export const adminNavItems: AdminNavItem[] = [
   { title: "Messages", url: "/admin/messages", resource: "messages", icon: MailIcon },
   { title: "Inquiries", url: "/admin/inquiries", resource: "inquiries", icon: InboxIcon },
   // { title: "SEO", url: "/admin/seo", resource: "seo", icon: SearchIcon },
-  // { title: "Settings", url: "/admin/settings", resource: "settings", icon: SettingsIcon },
+  { title: "Settings", url: "/admin/settings", resource: "settings", icon: SettingsIcon },
   { title: "Feature Flags", url: "/admin/feature-flags", resource: "featureFlags", icon: FlagIcon },
   { title: "Users", url: "/admin/users", resource: "users", icon: UsersIcon },
   { title: "Audit Logs", url: "/admin/audit-logs", resource: "auditLogs", icon: ScrollTextIcon },
