@@ -3,7 +3,7 @@
 import { requirePermission } from "@/lib/permissions"
 import { mediaService } from "@/services/media.service"
 import { createAuditLog } from "@/lib/audit-log"
-import { ValidationError } from "@/lib/errors"
+import { ValidationError, formatZodError } from "@/lib/errors"
 import { successResponse, errorResponse } from "@/lib/api-response"
 import { mediaMetadataSchema } from "@/schemas/media.schema"
 import type { ApiResponse } from "@/types/api"
@@ -53,7 +53,7 @@ export async function uploadMediaAction(formData: FormData): Promise<ApiResponse
     })
 
     if (!parsed.success) {
-      throw new ValidationError(parsed.error.issues[0]?.message ?? "Invalid input")
+      throw new ValidationError(formatZodError(parsed.error))
     }
 
     const media: MediaDocument = await mediaService.upload({

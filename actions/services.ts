@@ -6,7 +6,7 @@ import { requirePermission } from "@/lib/permissions"
 import { serviceService } from "@/services/service.service"
 import { serviceRepository } from "@/repositories/service.repository"
 import { createAuditLog } from "@/lib/audit-log"
-import { ValidationError } from "@/lib/errors"
+import { ValidationError, formatZodError } from "@/lib/errors"
 import { successResponse, errorResponse } from "@/lib/api-response"
 import { serviceSchema } from "@/schemas/service.schema"
 import type { ApiResponse } from "@/types/api"
@@ -17,7 +17,7 @@ export async function createServiceAction(input: unknown): Promise<ApiResponse<{
 
     const parsed = serviceSchema.safeParse(input)
     if (!parsed.success) {
-      throw new ValidationError(parsed.error.issues[0]?.message ?? "Invalid input")
+      throw new ValidationError(formatZodError(parsed.error))
     }
 
     const service = await serviceService.create(parsed.data)
@@ -49,7 +49,7 @@ export async function updateServiceAction(
 
     const parsed = serviceSchema.safeParse(input)
     if (!parsed.success) {
-      throw new ValidationError(parsed.error.issues[0]?.message ?? "Invalid input")
+      throw new ValidationError(formatZodError(parsed.error))
     }
 
     const service = await serviceService.update(id, parsed.data)

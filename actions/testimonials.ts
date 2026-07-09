@@ -6,7 +6,7 @@ import { requirePermission } from "@/lib/permissions"
 import { testimonialService } from "@/services/testimonial.service"
 import { testimonialRepository } from "@/repositories/testimonial.repository"
 import { createAuditLog } from "@/lib/audit-log"
-import { ValidationError } from "@/lib/errors"
+import { ValidationError, formatZodError } from "@/lib/errors"
 import { successResponse, errorResponse } from "@/lib/api-response"
 import { testimonialSchema } from "@/schemas/testimonial.schema"
 import type { ApiResponse } from "@/types/api"
@@ -17,7 +17,7 @@ export async function createTestimonialAction(input: unknown): Promise<ApiRespon
 
     const parsed = testimonialSchema.safeParse(input)
     if (!parsed.success) {
-      throw new ValidationError(parsed.error.issues[0]?.message ?? "Invalid input")
+      throw new ValidationError(formatZodError(parsed.error))
     }
 
     const testimonial = await testimonialService.create(parsed.data)
@@ -48,7 +48,7 @@ export async function updateTestimonialAction(
 
     const parsed = testimonialSchema.safeParse(input)
     if (!parsed.success) {
-      throw new ValidationError(parsed.error.issues[0]?.message ?? "Invalid input")
+      throw new ValidationError(formatZodError(parsed.error))
     }
 
     const testimonial = await testimonialService.update(id, parsed.data)

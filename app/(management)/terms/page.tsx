@@ -48,32 +48,52 @@ const sections = [
     ],
   },
   {
-    title: "5. No Warranty",
+    title: "5. Services",
+    body: [
+      `${SITE_NAME} provides UI/UX design, frontend development, backend development, and full stack application development services as described on this website and in individual project proposals.`,
+      "The specific scope, deliverables, milestones, and timeline for a project will be defined in a separate written proposal or agreement accepted by both parties before work begins.",
+      "We reserve the right to decline, pause, or terminate a project if the client fails to provide necessary access, content, feedback, or approvals within a reasonable time, or breaches the agreed terms.",
+      "Any work outside the agreed scope (\"out-of-scope work\") may require a separate quote, timeline adjustment, or additional fee before it is undertaken.",
+    ],
+  },
+  {
+    title: "6. Payment",
+    body: [
+      "Unless otherwise agreed in writing, projects require a 50% deposit before work begins. The remaining balance must be paid in full before the completed project is handed over.",
+      "For larger projects that are sectionized or modularized into distinct phases or deliverables, payments may instead be scheduled separately per section or module, as outlined in the applicable proposal or agreement.",
+      "We accept payment via PayPal, GCash, Maya, or bank transfer. Payment details will be provided in the applicable proposal or invoice.",
+      "Invoices are due upon receipt unless a different payment term is specified. Late payments may result in a pause of ongoing work until the outstanding balance is settled.",
+      "The initial 50% deposit is non-refundable once work has commenced, except as otherwise agreed in writing or required by applicable law.",
+      "The client is responsible for any taxes, duties, or transaction fees associated with payment, unless otherwise stated in the agreement.",
+    ],
+  },
+  {
+    title: "7. No Warranty",
     body: [
       "This website and its content are provided \"as is\" without warranties of any kind, express or implied, including accuracy, completeness, or fitness for a particular purpose.",
       "We do not guarantee uninterrupted or error-free access to the website.",
     ],
   },
   {
-    title: "6. Limitation of Liability",
+    title: "8. Limitation of Liability",
     body: [
       `To the fullest extent permitted by law, ${SITE_NAME} shall not be liable for any indirect, incidental, or consequential damages arising from your use of this website.`,
     ],
   },
   {
-    title: "7. Third-Party Links",
+    title: "9. Third-Party Links",
     body: [
       "Our website may contain links to third-party websites. We are not responsible for the content, privacy practices, or availability of those external sites.",
     ],
   },
   {
-    title: "8. Changes to These Terms",
+    title: "10. Changes to These Terms",
     body: [
       "We may revise these Terms & Conditions at any time. Continued use of the website after changes are posted constitutes acceptance of the updated terms.",
     ],
   },
   {
-    title: "9. Contact Us",
+    title: "11. Contact Us",
     body: [
       `For questions about these Terms & Conditions, contact us at ${CONTACT_EMAIL}.`,
     ],

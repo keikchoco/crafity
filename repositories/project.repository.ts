@@ -33,12 +33,12 @@ async function findAll(
 
 async function findById(id: string): Promise<ProjectDocument | null> {
   await connectToDatabase()
-  return Project.findOne({ _id: id, deletedAt: null })
+  return Project.findOne({ _id: id, deletedAt: null }).lean() as Promise<ProjectDocument | null>
 }
 
 async function findBySlug(slug: string): Promise<ProjectDocument | null> {
   await connectToDatabase()
-  return Project.findOne({ slug, deletedAt: null })
+  return Project.findOne({ slug, deletedAt: null }).lean() as Promise<ProjectDocument | null>
 }
 
 async function slugExists(slug: string, excludeId?: string): Promise<boolean> {

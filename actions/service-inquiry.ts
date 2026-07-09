@@ -1,7 +1,7 @@
 "use server"
 
 import { serviceInquiryService } from "@/services/service-inquiry.service"
-import { ValidationError } from "@/lib/errors"
+import { ValidationError, formatZodError } from "@/lib/errors"
 import { isRateLimited } from "@/lib/rate-limit"
 import { isFeatureEnabled } from "@/lib/feature-flags"
 import { sendEmail, ADMIN_NOTIFICATION_EMAIL } from "@/lib/mailer"
@@ -35,7 +35,7 @@ export async function submitServiceInquiryAction(
 
     const parsed = serviceInquirySchema.safeParse(input)
     if (!parsed.success) {
-      throw new ValidationError(parsed.error.issues[0]?.message ?? "Invalid input")
+      throw new ValidationError(formatZodError(parsed.error))
     }
 
     if (isRateLimited(parsed.data.email.toLowerCase())) {

@@ -47,6 +47,8 @@ function Button({
   size = "default",
   loading = false,
   disabled,
+  nativeButton,
+  render,
   children,
   ...props
 }: ButtonPrimitive.Props &
@@ -57,6 +59,8 @@ function Button({
       className={cn(buttonVariants({ variant, size, className }))}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
+      nativeButton={nativeButton ?? !render}
+      render={render}
       {...props}
     >
       {loading && <Loader2Icon className="animate-spin" />}

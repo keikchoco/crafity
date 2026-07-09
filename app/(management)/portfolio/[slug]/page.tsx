@@ -1,7 +1,8 @@
 import Image from "next/image"
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
-import { ArrowUpRightIcon } from "lucide-react"
+import { ArrowUpRightIcon, ArrowLeftIcon } from "lucide-react"
 
 import { projectService } from "@/services/project.service"
 import { SITE_URL } from "@/lib/site"
@@ -10,6 +11,7 @@ import { Container } from "@/components/shared/container"
 import { Typography } from "@/components/shared/typography"
 import { Stack } from "@/components/shared/stack"
 import { CtaSection } from "@/components/public/cta-section"
+import { ProjectGallery } from "@/components/public/project-gallery"
 import { Button } from "@/components/ui/button"
 import { FadeIn } from "@/components/motion/fade-in"
 import { SlideUp } from "@/components/motion/slide-up"
@@ -85,6 +87,15 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
       <Section className="pb-0">
         <Container size="lg">
           <FadeIn>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="mb-6 -ml-2.5"
+              render={<Link href="/portfolio" />}
+            >
+              <ArrowLeftIcon />
+              Back to portfolio
+            </Button>
             <Stack gap="sm" className="mb-8 max-w-3xl">
               <Typography variant="caption">{project.category}</Typography>
               <Typography variant="h1">{project.title}</Typography>
@@ -177,23 +188,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                 Gallery
               </Typography>
             </FadeIn>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              {project.gallery.map((image, index) => (
-                <SlideUp
-                  key={image.url}
-                  delay={index * 0.06}
-                  className="relative aspect-4/3 overflow-hidden rounded-xl bg-muted"
-                >
-                  <Image
-                    src={image.url}
-                    alt={image.alt}
-                    fill
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-cover"
-                  />
-                </SlideUp>
-              ))}
-            </div>
+            <ProjectGallery images={project.gallery} />
           </Container>
         </Section>
       )}

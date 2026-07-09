@@ -135,11 +135,19 @@ function ProjectForm({ projectId, defaultValues, onSuccess }: ProjectFormProps) 
 
       <form.Field name="gallery" mode="array">
         {(field) => (
-          <FormField label="Gallery" htmlFor="gallery">
+          <FormField label="Gallery" htmlFor="gallery" description="Alt text is required for each image">
             <div className="flex flex-col gap-2">
               {field.state.value.map((image, index) => (
                 <div key={index} className="flex items-center gap-2 rounded-md border border-border p-2">
                   <span className="flex-1 truncate text-xs text-muted-foreground">{image.url}</span>
+                  <Input
+                    placeholder="Alt text"
+                    value={image.alt}
+                    onChange={(event) =>
+                      field.replaceValue(index, { ...image, alt: event.target.value })
+                    }
+                    className="h-8 w-48"
+                  />
                   <Button
                     type="button"
                     variant="ghost"

@@ -15,7 +15,7 @@ function ProjectCard({ project }: ProjectCardProps) {
   return (
     <div className="group relative">
       <Link href={`/portfolio/${project.slug}`} className="block">
-        <div className="relative aspect-4/3 w-full overflow-hidden bg-muted">
+        <div className="relative aspect-4/3 w-full overflow-hidden bg-muted rounded-xl">
           <Image
             src={project.coverImage}
             alt={project.title}
@@ -27,40 +27,41 @@ function ProjectCard({ project }: ProjectCardProps) {
             <ArrowUpRightIcon className="size-4" />
           </div>
         </div>
-        <div className="flex flex-col gap-2 border-t border-border pt-4">
-          <div className="flex items-center justify-between gap-2">
-            <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-              {project.category}
-            </span>
-            {project.websiteLink && (
-              <a
-                href={project.websiteLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(event) => event.stopPropagation()}
-                className="relative z-10 flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Visit site
-                <ArrowUpRightIcon className="size-3" />
-              </a>
-            )}
-          </div>
-          <h3 className="font-heading text-lg font-medium text-foreground">{project.title}</h3>
-          <p className="line-clamp-2 text-sm text-muted-foreground">{project.shortDescription}</p>
-          {project.technologies.length > 0 && (
-            <div className="mt-1 flex flex-wrap gap-1.5">
-              {project.technologies.slice(0, 4).map((tech) => (
-                <span
-                  key={tech}
-                  className="rounded-full border border-border px-2 py-0.5 text-xs text-muted-foreground"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
+      </Link>
+      <div className="flex flex-col gap-2 border-t border-border mt-2 pt-4">
+        <div className="flex items-center justify-between gap-2">
+          <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            {project.category}
+          </span>
+          {project.websiteLink && (
+            <a
+              href={project.websiteLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative z-10 flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Visit site
+              <ArrowUpRightIcon className="size-3" />
+            </a>
           )}
         </div>
-      </Link>
+        <Link href={`/portfolio/${project.slug}`} className="block">
+          <h3 className="font-heading text-lg font-medium text-foreground">{project.title}</h3>
+          <p className="line-clamp-2 text-sm text-muted-foreground">{project.shortDescription}</p>
+        </Link>
+        {project.technologies.length > 0 && (
+          <div className="mt-1 flex flex-wrap gap-1.5">
+            {project.technologies.slice(0, 4).map((tech) => (
+              <span
+                key={tech}
+                className="rounded-full border border-border px-2 py-0.5 text-xs text-muted-foreground"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

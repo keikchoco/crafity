@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache"
 import { requirePermission } from "@/lib/permissions"
 import { projectService } from "@/services/project.service"
 import { createAuditLog } from "@/lib/audit-log"
-import { ValidationError } from "@/lib/errors"
+import { ValidationError, formatZodError } from "@/lib/errors"
 import { successResponse, errorResponse } from "@/lib/api-response"
 import { projectSchema } from "@/schemas/project.schema"
 import type { ApiResponse } from "@/types/api"
@@ -16,7 +16,7 @@ export async function createProjectAction(input: unknown): Promise<ApiResponse<{
 
     const parsed = projectSchema.safeParse(input)
     if (!parsed.success) {
-      throw new ValidationError(parsed.error.issues[0]?.message ?? "Invalid input")
+      throw new ValidationError(formatZodError(parsed.error))
     }
 
     const project = await projectService.create(parsed.data, admin.userId)
@@ -48,7 +48,7 @@ export async function updateProjectAction(
 
     const parsed = projectSchema.safeParse(input)
     if (!parsed.success) {
-      throw new ValidationError(parsed.error.issues[0]?.message ?? "Invalid input")
+      throw new ValidationError(formatZodError(parsed.error))
     }
 
     const project = await projectService.update(id, parsed.data, admin.userId)

@@ -1,3 +1,4 @@
+import type { ZodError } from "zod"
 import type { ApiErrorCode } from "@/types/api"
 
 export class AppError extends Error {
@@ -34,4 +35,12 @@ export class NotFoundError extends AppError {
   constructor(message = "Resource not found") {
     super(message, "NOT_FOUND", 404)
   }
+}
+
+export function formatZodError(error: ZodError, fallback = "Invalid input"): string {
+  const issue = error.issues[0]
+  if (!issue) return fallback
+
+  const path = issue.path.join(".")
+  return path ? `${path}: ${issue.message}` : issue.message
 }

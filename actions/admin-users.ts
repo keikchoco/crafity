@@ -3,7 +3,7 @@
 import { requirePermission } from "@/lib/permissions"
 import { inviteAdmin, updateAdminMetadata, getAdminMetadata } from "@/lib/admin-users"
 import { createAuditLog } from "@/lib/audit-log"
-import { AuthorizationError, ValidationError } from "@/lib/errors"
+import { AuthorizationError, ValidationError, formatZodError } from "@/lib/errors"
 import { successResponse, errorResponse } from "@/lib/api-response"
 import { inviteAdminSchema, updatePermissionsSchema } from "@/schemas/admin-user.schema"
 import type { ApiResponse } from "@/types/api"
@@ -14,7 +14,7 @@ export async function inviteAdminAction(input: unknown): Promise<ApiResponse<nul
 
     const parsed = inviteAdminSchema.safeParse(input)
     if (!parsed.success) {
-      throw new ValidationError(parsed.error.issues[0]?.message ?? "Invalid input")
+      throw new ValidationError(formatZodError(parsed.error))
     }
 
     if (parsed.data.isSuperAdmin && !admin.isSuperAdmin) {
@@ -47,7 +47,7 @@ export async function updatePermissionsAction(input: unknown): Promise<ApiRespon
 
     const parsed = updatePermissionsSchema.safeParse(input)
     if (!parsed.success) {
-      throw new ValidationError(parsed.error.issues[0]?.message ?? "Invalid input")
+      throw new ValidationError(formatZodError(parsed.error))
     }
 
     if (parsed.data.userId === admin.userId && !admin.isSuperAdmin) {

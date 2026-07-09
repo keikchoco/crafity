@@ -113,6 +113,7 @@ function Navbar({ logo, links = [], actions, className }: NavbarProps) {
                   {links.map((link) => (
                     <SheetClose
                       key={link.href}
+                      nativeButton={false}
                       render={
                         <Link
                           href={link.href}

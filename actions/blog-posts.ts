@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache"
 import { requirePermission } from "@/lib/permissions"
 import { blogPostService } from "@/services/blog-post.service"
 import { createAuditLog } from "@/lib/audit-log"
-import { ValidationError } from "@/lib/errors"
+import { ValidationError, formatZodError } from "@/lib/errors"
 import { successResponse, errorResponse } from "@/lib/api-response"
 import { blogPostSchema } from "@/schemas/blog-post.schema"
 import type { ApiResponse } from "@/types/api"
@@ -16,7 +16,7 @@ export async function createBlogPostAction(input: unknown): Promise<ApiResponse<
 
     const parsed = blogPostSchema.safeParse(input)
     if (!parsed.success) {
-      throw new ValidationError(parsed.error.issues[0]?.message ?? "Invalid input")
+      throw new ValidationError(formatZodError(parsed.error))
     }
 
     const post = await blogPostService.create(parsed.data)
@@ -46,7 +46,7 @@ export async function updateBlogPostAction(
 
     const parsed = blogPostSchema.safeParse(input)
     if (!parsed.success) {
-      throw new ValidationError(parsed.error.issues[0]?.message ?? "Invalid input")
+      throw new ValidationError(formatZodError(parsed.error))
     }
 
     const post = await blogPostService.update(id, parsed.data)
