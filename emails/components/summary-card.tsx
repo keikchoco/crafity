@@ -16,8 +16,8 @@ function SummaryCard({ title, rows }: SummaryCardProps) {
       <Text className="m-0 mb-3 text-[11px] font-semibold uppercase tracking-wide text-[#a1a1aa]">
         {title}
       </Text>
-      {rows.map((row) => (
-        <Row key={row.label} className="mb-2 last:mb-0">
+      {rows.map((row, index) => (
+        <Row key={row.label} className={index === rows.length - 1 ? "" : "mb-2"}>
           <Column className="w-[120px] align-top">
             <Text className="m-0 text-[12px] text-[#a1a1aa]">{row.label}</Text>
           </Column>
