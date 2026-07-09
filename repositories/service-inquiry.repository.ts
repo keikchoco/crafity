@@ -39,7 +39,7 @@ async function findById(id: string): Promise<ServiceInquiryDocument | null> {
 async function create(
   data: Pick<
     ServiceInquiryDocument,
-    "name" | "email" | "company" | "projectType" | "services" | "budget" | "timeline" | "description"
+    "name" | "email" | "company" | "service" | "budget" | "timeline" | "description"
   >,
 ): Promise<ServiceInquiryDocument> {
   await connectToDatabase()

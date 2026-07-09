@@ -61,8 +61,7 @@ export function serviceInquiryNotificationEmail(data: {
   name: string
   email: string
   company?: string
-  projectType: string
-  services: string[]
+  service: string
   budget: string
   timeline: string
   description: string
@@ -73,8 +72,7 @@ export function serviceInquiryNotificationEmail(data: {
       { label: "Name", value: data.name },
       { label: "Email", value: data.email },
       ...(data.company ? [{ label: "Company", value: data.company }] : []),
-      { label: "Project type", value: data.projectType },
-      { label: "Services", value: data.services.join(", ") || "—" },
+      { label: "Service", value: data.service },
       { label: "Budget", value: data.budget },
       { label: "Timeline", value: data.timeline },
       { label: "Description", value: data.description },

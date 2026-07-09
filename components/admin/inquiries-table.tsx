@@ -23,8 +23,7 @@ export interface InquiryRow {
   name: string
   email: string
   company?: string
-  projectType: string
-  services: string[]
+  service: string
   budget: string
   timeline: string
   description: string
@@ -78,7 +77,7 @@ function InquiriesTable({ rows, total, page, limit }: InquiriesTableProps) {
         </div>
       ),
     },
-    { key: "projectType", label: "Project Type", render: (row) => row.projectType },
+    { key: "service", label: "Service", render: (row) => row.service },
     { key: "budget", label: "Budget", render: (row) => row.budget },
     {
       key: "status",
@@ -129,8 +128,8 @@ function InquiriesTable({ rows, total, page, limit }: InquiriesTableProps) {
             <div className="flex flex-col gap-3 text-sm">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <span className="text-xs uppercase text-muted-foreground">Project Type</span>
-                  <p>{row.projectType}</p>
+                  <span className="text-xs uppercase text-muted-foreground">Service</span>
+                  <p>{row.service}</p>
                 </div>
                 <div>
                   <span className="text-xs uppercase text-muted-foreground">Budget</span>
@@ -139,10 +138,6 @@ function InquiriesTable({ rows, total, page, limit }: InquiriesTableProps) {
                 <div>
                   <span className="text-xs uppercase text-muted-foreground">Timeline</span>
                   <p>{row.timeline}</p>
-                </div>
-                <div>
-                  <span className="text-xs uppercase text-muted-foreground">Services</span>
-                  <p>{row.services.join(", ") || "—"}</p>
                 </div>
               </div>
 

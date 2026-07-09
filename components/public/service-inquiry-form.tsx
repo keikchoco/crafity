@@ -8,17 +8,16 @@ import { submitServiceInquiryAction } from "@/actions/service-inquiry"
 import { serviceInquirySchema, type InferredServiceInquiryInput } from "@/schemas/service-inquiry.schema"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { FormField } from "@/components/forms/form-field"
 import { FormError } from "@/components/forms/form-error"
 import { SubmitButton } from "@/components/forms/submit-button"
-import { cn } from "@/lib/utils"
 
 const emptyInquiry: InferredServiceInquiryInput = {
   name: "",
   email: "",
   company: "",
-  projectType: "",
-  services: [],
+  service: "",
   budget: "",
   timeline: "",
   description: "",
@@ -129,24 +128,34 @@ function ServiceInquiryForm({ availableServices }: ServiceInquiryFormProps) {
         )}
       </form.Field>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      {availableServices.length > 0 && (
         <form.Field
-          name="projectType"
-          validators={{ onBlur: ({ value }) => serviceInquirySchema.shape.projectType.safeParse(value).error?.issues[0]?.message }}
+          name="service"
+          validators={{ onBlur: ({ value }) => serviceInquirySchema.shape.service.safeParse(value).error?.issues[0]?.message }}
         >
           {(field) => (
-            <FormField label="Project Type" htmlFor="projectType" required error={field.state.meta.errors[0]}>
-              <Input
-                id="projectType"
-                placeholder="e.g. Website"
-                value={field.state.value}
-                onChange={(event) => field.handleChange(event.target.value)}
-                onBlur={field.handleBlur}
-              />
+            <FormField label="Service needed" htmlFor="service" required error={field.state.meta.errors[0]}>
+              <Select
+                value={field.state.value || null}
+                onValueChange={(value) => field.handleChange(value ?? "")}
+              >
+                <SelectTrigger id="service" onBlur={field.handleBlur} className="w-full">
+                  <SelectValue placeholder="Select a service" />
+                </SelectTrigger>
+                <SelectContent alignItemWithTrigger={false}>
+                  {availableServices.map((service) => (
+                    <SelectItem key={service} value={service}>
+                      {service}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </FormField>
           )}
         </form.Field>
+      )}
 
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <form.Field
           name="budget"
           validators={{ onBlur: ({ value }) => serviceInquirySchema.shape.budget.safeParse(value).error?.issues[0]?.message }}
@@ -155,7 +164,7 @@ function ServiceInquiryForm({ availableServices }: ServiceInquiryFormProps) {
             <FormField label="Budget" htmlFor="budget" required error={field.state.meta.errors[0]}>
               <Input
                 id="budget"
-                placeholder="e.g. $10k-$25k"
+                placeholder="e.g. ₱10k-₱25k"
                 value={field.state.value}
                 onChange={(event) => field.handleChange(event.target.value)}
                 onBlur={field.handleBlur}
@@ -181,46 +190,6 @@ function ServiceInquiryForm({ availableServices }: ServiceInquiryFormProps) {
           )}
         </form.Field>
       </div>
-
-      {availableServices.length > 0 && (
-        <form.Field name="services">
-          {(field) => (
-            <FormField
-              label="Services needed"
-              htmlFor="services"
-              required
-              error={field.state.meta.errors[0]}
-            >
-              <div className="flex flex-wrap gap-2">
-                {availableServices.map((service) => {
-                  const selected = field.state.value.includes(service)
-                  return (
-                    <button
-                      key={service}
-                      type="button"
-                      onClick={() =>
-                        field.handleChange(
-                          selected
-                            ? field.state.value.filter((item) => item !== service)
-                            : [...field.state.value, service],
-                        )
-                      }
-                      className={cn(
-                        "rounded-full border border-border px-3 py-1.5 text-sm transition-colors",
-                        selected
-                          ? "bg-foreground text-background"
-                          : "text-muted-foreground hover:text-foreground",
-                      )}
-                    >
-                      {service}
-                    </button>
-                  )
-                })}
-              </div>
-            </FormField>
-          )}
-        </form.Field>
-      )}
 
       <form.Field
         name="description"

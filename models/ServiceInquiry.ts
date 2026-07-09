@@ -5,8 +5,7 @@ export interface ServiceInquiryDocument extends Document {
   name: string
   email: string
   company?: string
-  projectType: string
-  services: string[]
+  service: string
   budget: string
   timeline: string
   description: string
@@ -21,8 +20,7 @@ const serviceInquirySchema = new Schema<ServiceInquiryDocument>(
     name: { type: String, required: true },
     email: { type: String, required: true, lowercase: true, trim: true },
     company: { type: String },
-    projectType: { type: String, required: true },
-    services: { type: [String], default: [] },
+    service: { type: String, required: true },
     budget: { type: String, required: true },
     timeline: { type: String, required: true },
     description: { type: String, required: true },

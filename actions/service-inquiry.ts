@@ -14,8 +14,7 @@ interface ServiceInquiryFormInput {
   name: string
   email: string
   company?: string
-  projectType: string
-  services: string[]
+  service: string
   budget: string
   timeline: string
   description: string
