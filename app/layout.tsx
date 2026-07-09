@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { ClerkProvider } from "@clerk/nextjs"
 import { Geist_Mono, Manrope, Montserrat } from "next/font/google"
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
@@ -50,7 +50,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ClerkProvider publishableKey={clerkPublishableKey}>
+    <>
+      <SpeedInsights/>
+      <ClerkProvider publishableKey={clerkPublishableKey}>
+      
       <html
         lang="en"
         suppressHydrationWarning
@@ -68,5 +71,7 @@ export default function RootLayout({
         </body>
       </html>
     </ClerkProvider>
+    </>
+    
   )
 }
