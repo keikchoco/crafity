@@ -3,12 +3,14 @@
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { ArrowUpIcon, ArrowDownIcon } from "lucide-react"
 
 import {
   publishProjectAction,
   archiveProjectAction,
   restoreProjectAction,
   deleteProjectAction,
+  reorderProjectAction,
 } from "@/actions/projects"
 import type { InferredProjectInput } from "@/schemas/project.schema"
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table"
@@ -24,6 +26,7 @@ export interface ProjectRow {
   category: string
   status: "draft" | "published" | "archived"
   featured: boolean
+  order: number
   deletedAt: string | null
   createdAt: string
   defaultValues: InferredProjectInput
@@ -53,6 +56,15 @@ function ProjectsTable({ rows, total, page, limit }: ProjectsTableProps) {
       return
     }
     toast.success(successMessage)
+    router.refresh()
+  }
+
+  async function handleReorder(id: string, direction: "up" | "down") {
+    const response = await reorderProjectAction(id, direction)
+    if (!response.success) {
+      toast.error(response.error.message)
+      return
+    }
     router.refresh()
   }
 
@@ -95,6 +107,7 @@ function ProjectsTable({ rows, total, page, limit }: ProjectsTableProps) {
       ),
     },
     { key: "featured", label: "Featured", render: (row) => (row.featured ? "Yes" : "—") },
+    { key: "order", label: "Order", render: (row) => row.order },
     {
       key: "createdAt",
       label: "Created",
@@ -125,6 +138,12 @@ function ProjectsTable({ rows, total, page, limit }: ProjectsTableProps) {
             </Button>
           ) : (
             <>
+              <Button variant="ghost" size="icon-sm" onClick={() => handleReorder(row.id, "up")}>
+                <ArrowUpIcon />
+              </Button>
+              <Button variant="ghost" size="icon-sm" onClick={() => handleReorder(row.id, "down")}>
+                <ArrowDownIcon />
+              </Button>
               {row.status !== "published" && (
                 <Button
                   variant="outline"

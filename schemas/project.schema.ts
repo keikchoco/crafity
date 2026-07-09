@@ -29,6 +29,8 @@ export const projectSchema = z.object({
   timeline: z.string().min(1, "Timeline is required"),
   role: z.string().min(1, "Role is required"),
   websiteLink: z.union([z.string().url("Enter a valid URL"), z.literal("")]).default(""),
+  budget: z.string().max(120).default(""),
+  budgetVisible: z.boolean().default(false),
   problem: z.string().default(""),
   research: z.string().default(""),
   solution: z.string().default(""),

@@ -30,7 +30,7 @@ export default async function AdminProjectsPage({ searchParams }: AdminProjectsP
   try {
     const result = await projectService.list(
       { includeDeleted: true },
-      { page, limit, sort: params.sort, search: params.q },
+      { page, limit, sort: params.sort ?? "order", search: params.q },
     )
 
     rows = result.items.map((item) => ({
@@ -40,6 +40,7 @@ export default async function AdminProjectsPage({ searchParams }: AdminProjectsP
       category: item.category,
       status: item.status,
       featured: item.featured,
+      order: item.order,
       deletedAt: item.deletedAt ? new Date(item.deletedAt).toISOString() : null,
       createdAt: new Date(item.createdAt).toISOString(),
       defaultValues: {
@@ -55,6 +56,8 @@ export default async function AdminProjectsPage({ searchParams }: AdminProjectsP
         timeline: item.timeline,
         role: item.role,
         websiteLink: item.websiteLink,
+        budget: item.budget,
+        budgetVisible: item.budgetVisible,
         problem: item.problem,
         research: item.research,
         solution: item.solution,

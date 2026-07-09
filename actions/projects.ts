@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache"
 
 import { requirePermission } from "@/lib/permissions"
 import { projectService } from "@/services/project.service"
+import { projectRepository } from "@/repositories/project.repository"
 import { createAuditLog } from "@/lib/audit-log"
 import { ValidationError, formatZodError } from "@/lib/errors"
 import { successResponse, errorResponse } from "@/lib/api-response"
@@ -128,6 +129,50 @@ export async function restoreProjectAction(id: string): Promise<ApiResponse<null
     revalidatePath("/")
     revalidatePath("/portfolio")
     revalidatePath(`/portfolio/${project.slug}`)
+    return successResponse(null)
+  } catch (error) {
+    return errorResponse(error)
+  }
+}
+
+export async function reorderProjectAction(id: string, direction: "up" | "down"): Promise<ApiResponse<null>> {
+  try {
+    const admin = await requirePermission("projects", "edit")
+
+    if (direction !== "up" && direction !== "down") {
+      throw new ValidationError("Invalid direction")
+    }
+
+    const current = await projectService.getById(id)
+    const { items } = await projectRepository.findAll({}, { sort: "order", limit: 200 })
+    const index = items.findIndex((item) => String(item._id) === id)
+
+    if (index === -1) {
+      return successResponse(null)
+    }
+
+    const swapIndex = direction === "up" ? index - 1 : index + 1
+    const swapItem = items[swapIndex]
+
+    if (!swapItem) {
+      return successResponse(null)
+    }
+
+    await projectRepository.update(id, { order: swapItem.order })
+    await projectRepository.update(String(swapItem._id), { order: current.order })
+
+    await createAuditLog({
+      userId: admin.userId,
+      action: "UPDATE",
+      resource: "projects",
+      resourceId: id,
+      newValue: { order: swapItem.order },
+    })
+
+    revalidatePath("/admin/projects")
+    revalidatePath("/")
+    revalidatePath("/portfolio")
+
     return successResponse(null)
   } catch (error) {
     return errorResponse(error)

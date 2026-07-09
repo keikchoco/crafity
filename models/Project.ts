@@ -15,6 +15,8 @@ export interface ProjectDocument extends Document {
   timeline: string
   role: string
   websiteLink: string
+  budget: string
+  budgetVisible: boolean
   problem: string
   research: string
   solution: string
@@ -22,6 +24,7 @@ export interface ProjectDocument extends Document {
   developmentProcess: string
   results: string
   featured: boolean
+  order: number
   seo: SeoFields
   status: ContentStatus
   createdBy: string
@@ -66,6 +69,8 @@ const projectSchema = new Schema<ProjectDocument>(
     timeline: { type: String, required: true },
     role: { type: String, required: true },
     websiteLink: { type: String, default: "" },
+    budget: { type: String, default: "" },
+    budgetVisible: { type: Boolean, default: false },
     problem: { type: String, default: "" },
     research: { type: String, default: "" },
     solution: { type: String, default: "" },
@@ -73,6 +78,7 @@ const projectSchema = new Schema<ProjectDocument>(
     developmentProcess: { type: String, default: "" },
     results: { type: String, default: "" },
     featured: { type: Boolean, default: false },
+    order: { type: Number, default: 0 },
     seo: { type: seoFieldsSchema, default: () => ({}) },
     status: { type: String, enum: ["draft", "published", "archived"], required: true, default: "draft" },
     createdBy: { type: String, required: true },
@@ -86,6 +92,7 @@ const projectSchema = new Schema<ProjectDocument>(
 projectSchema.index({ status: 1 })
 projectSchema.index({ featured: 1 })
 projectSchema.index({ createdAt: -1 })
+projectSchema.index({ order: 1 })
 
 export const Project: Model<ProjectDocument> =
   models.Project ?? model<ProjectDocument>("Project", projectSchema)

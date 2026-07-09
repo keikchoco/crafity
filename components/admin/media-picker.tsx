@@ -33,6 +33,8 @@ function MediaPicker({ value, onSelect, triggerLabel = "Choose image" }: MediaPi
   const [uploading, setUploading] = React.useState(false)
   const [uploadError, setUploadError] = React.useState<string | null>(null)
   const [altText, setAltText] = React.useState("")
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null)
+  const [isDragging, setIsDragging] = React.useState(false)
   const fileInputRef = React.useRef<HTMLInputElement>(null)
 
   React.useEffect(() => {
@@ -48,11 +50,22 @@ function MediaPicker({ value, onSelect, triggerLabel = "Choose image" }: MediaPi
     })
   }, [open, items])
 
+  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setSelectedFile(event.target.files?.[0] ?? null)
+  }
+
+  function handleDrop(event: React.DragEvent<HTMLDivElement>) {
+    event.preventDefault()
+    setIsDragging(false)
+    const file = event.dataTransfer.files?.[0]
+    if (file) setSelectedFile(file)
+  }
+
   async function handleUpload(event: React.FormEvent) {
     event.preventDefault()
     setUploadError(null)
 
-    const file = fileInputRef.current?.files?.[0]
+    const file = selectedFile ?? fileInputRef.current?.files?.[0]
     if (!file) {
       setUploadError("Choose a file first")
       return
@@ -77,6 +90,8 @@ function MediaPicker({ value, onSelect, triggerLabel = "Choose image" }: MediaPi
 
     toast.success("Image uploaded")
     onSelect(response.data.url)
+    setSelectedFile(null)
+    setAltText("")
     setOpen(false)
   }
 
@@ -99,8 +114,30 @@ function MediaPicker({ value, onSelect, triggerLabel = "Choose image" }: MediaPi
         </DialogHeader>
 
         <form onSubmit={handleUpload} className="flex flex-col gap-3 border-b border-border pb-4">
-          <div className="flex gap-2">
-            <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp,image/svg+xml" />
+          <div
+            onDragOver={(event) => {
+              event.preventDefault()
+              setIsDragging(true)
+            }}
+            onDragLeave={() => setIsDragging(false)}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+            className={cn(
+              "flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-md border border-dashed border-input px-4 py-6 text-center transition-colors",
+              isDragging ? "border-primary bg-primary/5" : "hover:border-foreground/40",
+            )}
+          >
+            <UploadIcon className="size-5 text-muted-foreground" />
+            <p className="text-sm text-foreground">
+              {selectedFile ? selectedFile.name : "Drag and drop an image, or click to browse"}
+            </p>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/svg+xml"
+              className="hidden"
+              onChange={handleFileChange}
+            />
           </div>
           <FormField label="Alt text" htmlFor="picker-alt-text" required>
             <Input

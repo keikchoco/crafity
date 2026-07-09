@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const [projectsResult, servicesResult, testimonialsResult] = await Promise.all([
-    projectService.list({ status: "published" }, { limit: 12, sort: "-createdAt" }),
+    projectService.list({ status: "published" }, { limit: 12, sort: "order" }),
     serviceService.list({ status: "published" }, { limit: 6, sort: "order" }),
     testimonialService.list({ status: "published" }, { limit: 4, sort: "order" }),
   ])

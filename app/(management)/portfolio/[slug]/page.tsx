@@ -130,6 +130,9 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                 <DetailRow label="Client" value={project.client} />
                 <DetailRow label="Timeline" value={project.timeline} />
                 <DetailRow label="Role" value={project.role} />
+                {project.budgetVisible && project.budget && (
+                  <DetailRow label="Budget" value={project.budget} />
+                )}
                 {project.websiteLink && (
                   <Button
                     variant="outline"

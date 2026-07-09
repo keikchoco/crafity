@@ -28,6 +28,8 @@ export interface Project extends Lifecycle {
   timeline: string
   role: string
   websiteLink: string
+  budget: string
+  budgetVisible: boolean
   problem: string
   research: string
   solution: string
@@ -35,5 +37,6 @@ export interface Project extends Lifecycle {
   developmentProcess: string
   results: string
   featured: boolean
+  order: number
   seo: SeoFields
 }

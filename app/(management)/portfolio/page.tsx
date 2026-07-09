@@ -25,7 +25,7 @@ interface PortfolioPageProps {
 
 export default async function PortfolioPage({ searchParams }: PortfolioPageProps) {
   const { category } = await searchParams
-  const { items } = await projectService.list({ status: "published" }, { limit: 100, sort: "-createdAt" })
+  const { items } = await projectService.list({ status: "published" }, { limit: 100, sort: "order" })
 
   const categories = Array.from(new Set(items.map((project) => project.category))).sort()
   const activeCategory = category && categories.includes(category) ? category : undefined

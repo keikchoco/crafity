@@ -22,7 +22,7 @@ interface FormDialogProps {
 function FormDialog({ open, onOpenChange, title, description, children, className }: FormDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className={className ?? "max-h-[85vh] overflow-y-auto sm:max-w-2xl"}>
+      <DialogContent className={className ?? "max-h-[85vh] w-full overflow-x-hidden overflow-y-auto sm:max-w-2xl"}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}

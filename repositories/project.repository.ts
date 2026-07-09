@@ -11,7 +11,7 @@ export interface ProjectFilter {
 
 async function findAll(
   filter: ProjectFilter,
-  { page = 1, limit = 20, sort = "-createdAt", search }: ListQueryOptions = {},
+  { page = 1, limit = 20, sort = "order", search }: ListQueryOptions = {},
 ): Promise<PaginatedResult<ProjectDocument>> {
   await connectToDatabase()
 

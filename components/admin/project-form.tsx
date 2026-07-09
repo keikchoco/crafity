@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Image from "next/image"
 import { useForm } from "@tanstack/react-form"
 import { toast } from "sonner"
 import { TrashIcon } from "lucide-react"
@@ -15,6 +16,7 @@ import { FormError } from "@/components/forms/form-error"
 import { SubmitButton } from "@/components/forms/submit-button"
 import { TagInput } from "@/components/forms/tag-input"
 import { MediaPicker } from "@/components/admin/media-picker"
+import { GalleryDropzone } from "@/components/admin/gallery-dropzone"
 
 const emptyProject: InferredProjectInput = {
   title: "",
@@ -29,6 +31,8 @@ const emptyProject: InferredProjectInput = {
   timeline: "",
   role: "",
   websiteLink: "",
+  budget: "",
+  budgetVisible: false,
   problem: "",
   research: "",
   solution: "",
@@ -133,39 +137,66 @@ function ProjectForm({ projectId, defaultValues, onSuccess }: ProjectFormProps) 
         )}
       </form.Field>
 
-      <form.Field name="gallery" mode="array">
-        {(field) => (
-          <FormField label="Gallery" htmlFor="gallery" description="Alt text is required for each image">
-            <div className="flex flex-col gap-2">
-              {field.state.value.map((image, index) => (
-                <div key={index} className="flex items-center gap-2 rounded-md border border-border p-2">
-                  <span className="flex-1 truncate text-xs text-muted-foreground">{image.url}</span>
-                  <Input
-                    placeholder="Alt text"
-                    value={image.alt}
-                    onChange={(event) =>
-                      field.replaceValue(index, { ...image, alt: event.target.value })
+      <form.Subscribe selector={(state) => state.values.title}>
+        {(title) => (
+          <form.Field name="gallery" mode="array">
+            {(field) => (
+              <FormField label="Gallery" htmlFor="gallery">
+                <div className="flex flex-col gap-3">
+                  {field.state.value.length > 0 && (
+                    <div className="columns-2 gap-2 sm:columns-3">
+                      {field.state.value.map((image, index) => (
+                        <div
+                          key={image.url + index}
+                          className="group relative mb-2 break-inside-avoid overflow-hidden rounded-md bg-muted"
+                        >
+                          <Image
+                            src={image.url}
+                            alt={image.alt || title || "Gallery image"}
+                            width={400}
+                            height={400}
+                            className="h-auto w-full object-contain"
+                          />
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon-sm"
+                            className="absolute top-1 right-1 bg-background/90 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100"
+                            onClick={() => field.removeValue(index)}
+                          >
+                            <TrashIcon className="text-destructive" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <GalleryDropzone
+                    getAltText={(index) =>
+                      title
+                        ? `${title} — gallery image ${field.state.value.length + index + 1}`
+                        : `Gallery image ${field.state.value.length + index + 1}`
                     }
-                    className="h-8 w-48"
+                    onUpload={(results) => {
+                      for (const result of results) {
+                        field.pushValue({ url: result.url, alt: result.alt })
+                      }
+                    }}
                   />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon-sm"
-                    onClick={() => field.removeValue(index)}
-                  >
-                    <TrashIcon className="text-destructive" />
-                  </Button>
+                  <MediaPicker
+                    triggerLabel="Choose from library"
+                    onSelect={(url) =>
+                      field.pushValue({
+                        url,
+                        alt: title ? `${title} — gallery image ${field.state.value.length + 1}` : "Gallery image",
+                      })
+                    }
+                  />
                 </div>
-              ))}
-              <MediaPicker
-                triggerLabel="Add gallery image"
-                onSelect={(url) => field.pushValue({ url, alt: "" })}
-              />
-            </div>
-          </FormField>
+              </FormField>
+            )}
+          </form.Field>
         )}
-      </form.Field>
+      </form.Subscribe>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <form.Field name="category">
@@ -243,6 +274,39 @@ function ProjectForm({ projectId, defaultValues, onSuccess }: ProjectFormProps) 
                 onChange={(event) => field.handleChange(event.target.value)}
               />
             </FormField>
+          )}
+        </form.Field>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <form.Field name="budget">
+          {(field) => (
+            <FormField
+              label="Budget"
+              htmlFor="budget"
+              description="e.g. ₱50k-₱100k"
+            >
+              <Input
+                id="budget"
+                value={field.state.value}
+                onChange={(event) => field.handleChange(event.target.value)}
+              />
+            </FormField>
+          )}
+        </form.Field>
+
+        <form.Field name="budgetVisible">
+          {(field) => (
+            <div className="flex items-end pb-2">
+              <label className="flex items-center gap-2 text-sm text-foreground">
+                <input
+                  type="checkbox"
+                  checked={field.state.value}
+                  onChange={(event) => field.handleChange(event.target.checked)}
+                />
+                Show budget on case study page
+              </label>
+            </div>
           )}
         </form.Field>
       </div>
