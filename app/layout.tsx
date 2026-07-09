@@ -12,6 +12,8 @@ const montserratHeading = Montserrat({subsets:['latin'],variable:'--font-heading
 
 const manrope = Manrope({subsets:['latin'],variable:'--font-sans'})
 
+const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
@@ -48,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider publishableKey={clerkPublishableKey}>
       <html
         lang="en"
         suppressHydrationWarning

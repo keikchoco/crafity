@@ -2,12 +2,12 @@ import type { NextConfig } from "next"
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://*.clerk.com https://challenges.cloudflare.com",
-  "connect-src 'self' https://*.clerk.accounts.dev https://*.clerk.com https://api.clerk.com",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://*.clerk.com https://clerk.creathink.xyz https://challenges.cloudflare.com",
+  "connect-src 'self' https://*.clerk.accounts.dev https://*.clerk.com https://clerk.creathink.xyz https://api.clerk.com",
   "img-src 'self' data: https: blob:",
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self' data:",
-  "frame-src 'self' https://*.clerk.accounts.dev https://*.clerk.com https://challenges.cloudflare.com",
+  "frame-src 'self' https://*.clerk.accounts.dev https://*.clerk.com https://clerk.creathink.xyz https://challenges.cloudflare.com",
   "worker-src 'self' blob:",
   "object-src 'none'",
   "base-uri 'self'",
