@@ -62,7 +62,7 @@ function Footer({ logo, description, columns = [], bottomText, className }: Foot
 
         <div className="mt-16 flex flex-col gap-4 border-t border-border pt-6 font-mono text-xs tracking-wide text-muted-foreground uppercase sm:flex-row sm:items-center sm:justify-between">
           <span>{bottomText ?? `© ${year} CreaThink. All rights reserved.`}</span>
-          <span>Designed & built in-house</span>
+          {/* <span>Designed & built in-house</span> */}
         </div>
       </Container>
     </footer>

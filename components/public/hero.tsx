@@ -21,7 +21,7 @@ function Hero() {
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75 motion-reduce:animate-none" />
               <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
             </span>
-            CreaThink — Creative Development Studio
+            CreaThink — Website Development Studio
           </span>
           <span className="hidden sm:inline">Design × Engineering</span>
         </FadeIn>
@@ -29,7 +29,7 @@ function Hero() {
         <div className="grid grid-cols-1 gap-10 py-10 lg:grid-cols-12 lg:items-end lg:gap-6 lg:py-16">
           <SlideUp delay={0.05} className="lg:col-span-8">
             <h1 className="font-heading text-[clamp(2.75rem,8.5vw,7.5rem)] leading-[0.94] font-semibold tracking-tight text-foreground">
-              Crafting
+              Creating
               <br />
               <span className="bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
                 digital

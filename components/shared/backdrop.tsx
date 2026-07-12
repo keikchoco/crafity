@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { motion, useReducedMotion } from "framer-motion"
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion"
 
 const GRID_SIZE = 56
 const ACTIVE_LINE_RATIO = 0.35
@@ -82,9 +82,14 @@ function buildPulses(lines: GridLine[], width: number, height: number): Pulse[] 
   return pulses
 }
 
+const PARALLAX_DISTANCE = 48
+
 function Backdrop() {
   const shouldReduceMotion = useReducedMotion()
   const [size, setSize] = React.useState({ width: 0, height: 0 })
+
+  const { scrollY } = useScroll()
+  const parallaxY = useTransform(scrollY, [0, 1000], [0, PARALLAX_DISTANCE])
 
   React.useEffect(() => {
     function updateSize() {
@@ -107,53 +112,58 @@ function Backdrop() {
 
   return (
     <div className="techy-backdrop" aria-hidden="true">
-      <div className="techy-backdrop__glow techy-backdrop__glow--primary" />
-      <div className="techy-backdrop__glow techy-backdrop__glow--info" />
-      {size.width > 0 && size.height > 0 && (
-        <svg className="techy-backdrop__grid -rotate-3" width={size.width} height={size.height}>
-          <g className="techy-backdrop__gridlines">
-            {lines.map((line) =>
-              line.orientation === "vertical" ? (
-                <line key={line.id} x1={line.position} y1={0} x2={line.position} y2={size.height} />
-              ) : (
-                <line key={line.id} x1={0} y1={line.position} x2={size.width} y2={line.position} />
-              ),
-            )}
-          </g>
+      <motion.div
+        className="absolute inset-0"
+        style={shouldReduceMotion ? undefined : { y: parallaxY }}
+      >
+        <div className="techy-backdrop__glow techy-backdrop__glow--primary" />
+        <div className="techy-backdrop__glow techy-backdrop__glow--info" />
+        {size.width > 0 && size.height > 0 && (
+          <svg className="techy-backdrop__grid -rotate-3" width={size.width} height={size.height}>
+            <g className="techy-backdrop__gridlines">
+              {lines.map((line) =>
+                line.orientation === "vertical" ? (
+                  <line key={line.id} x1={line.position} y1={0} x2={line.position} y2={size.height} />
+                ) : (
+                  <line key={line.id} x1={0} y1={line.position} x2={size.width} y2={line.position} />
+                ),
+              )}
+            </g>
 
-          {pulses.map((pulse) => {
-            const from = pulse.reverse ? pulse.length : 0
-            const to = pulse.reverse ? 0 : pulse.length
-            const transition = {
-              duration: pulse.duration,
-              delay: pulse.delay,
-              repeat: Infinity,
-              repeatDelay: pulse.repeatDelay,
-              ease: "linear" as const,
-            }
+            {pulses.map((pulse) => {
+              const from = pulse.reverse ? pulse.length : 0
+              const to = pulse.reverse ? 0 : pulse.length
+              const transition = {
+                duration: pulse.duration,
+                delay: pulse.delay,
+                repeat: Infinity,
+                repeatDelay: pulse.repeatDelay,
+                ease: "linear" as const,
+              }
 
-            return (
-              <motion.circle
-                key={pulse.id}
-                r={2.5}
-                fill={pulse.color}
-                style={{ filter: `drop-shadow(0 0 6px ${pulse.color})` }}
-                initial={
-                  pulse.orientation === "vertical"
-                    ? { cx: pulse.position, cy: from, opacity: 0 }
-                    : { cx: from, cy: pulse.position, opacity: 0 }
-                }
-                animate={
-                  pulse.orientation === "vertical"
-                    ? { cy: [from, to], opacity: [0, 1, 1, 0], scaleY: [1, 2, 2, 1] }
-                    : { cx: [from, to], opacity: [0, 1, 1, 0], scaleX: [1, 2, 2, 1] }
-                }
-                transition={transition}
-              />
-            )
-          })}
-        </svg>
-      )}
+              return (
+                <motion.circle
+                  key={pulse.id}
+                  r={2.5}
+                  fill={pulse.color}
+                  style={{ filter: `drop-shadow(0 0 6px ${pulse.color})` }}
+                  initial={
+                    pulse.orientation === "vertical"
+                      ? { cx: pulse.position, cy: from, opacity: 0 }
+                      : { cx: from, cy: pulse.position, opacity: 0 }
+                  }
+                  animate={
+                    pulse.orientation === "vertical"
+                      ? { cy: [from, to], opacity: [0, 1, 1, 0], scaleY: [1, 2, 2, 1] }
+                      : { cx: [from, to], opacity: [0, 1, 1, 0], scaleX: [1, 2, 2, 1] }
+                  }
+                  transition={transition}
+                />
+              )
+            })}
+          </svg>
+        )}
+      </motion.div>
     </div>
   )
 }

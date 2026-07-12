@@ -17,9 +17,9 @@ function SectionLabel({ index, children, className, ...props }: SectionLabelProp
       )}
       {...props}
     >
-      {index && <span className="text-primary">{index}</span>}
-      <span className="h-px w-5 bg-border" />
-      <span>{children}</span>
+      {/* {index && <span className="text-primary">{index}</span>}
+      <span className="h-px w-5 bg-border" /> */}
+      <span className="text-primary">{children}</span>
     </div>
   )
 }
