@@ -15,7 +15,7 @@ function Hero() {
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent"
       />
       <Container size="lg" className="py-16 md:py-24">
-        <FadeIn className="flex items-center justify-between border-b border-border pb-5 text-xs tracking-widest text-muted-foreground uppercase">
+        {/* <FadeIn className="flex items-center justify-between border-b border-border pb-5 text-xs tracking-widest text-muted-foreground uppercase">
           <span className="inline-flex items-center gap-2">
             <span className="relative flex size-1.5">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-75 motion-reduce:animate-none" />
@@ -24,7 +24,7 @@ function Hero() {
             CreaThink — Website Development Studio
           </span>
           <span className="hidden sm:inline">Design × Engineering</span>
-        </FadeIn>
+        </FadeIn> */}
 
         <div className="grid grid-cols-1 gap-10 py-10 lg:grid-cols-12 lg:items-end lg:gap-6 lg:py-16">
           <SlideUp delay={0.05} className="lg:col-span-8">
@@ -64,7 +64,7 @@ function Hero() {
           </div>
         </div>
 
-        <FadeIn
+        {/* <FadeIn
           delay={0.2}
           className="flex items-center justify-between border-t border-border pt-5 text-xs tracking-widest text-muted-foreground uppercase"
         >
@@ -73,7 +73,7 @@ function Hero() {
             Scroll
             <ArrowDownIcon className="size-3" />
           </span>
-        </FadeIn>
+        </FadeIn> */}
       </Container>
     </div>
   )
