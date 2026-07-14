@@ -28,22 +28,23 @@ function Hero() {
 
         <div className="grid grid-cols-1 gap-10 py-10 lg:grid-cols-12 lg:items-end lg:gap-6 lg:py-16">
           <SlideUp delay={0.05} className="lg:col-span-8">
-            <h1 className="font-heading text-[clamp(2.75rem,8.5vw,7.5rem)] leading-[0.94] font-semibold tracking-tight text-foreground">
-              Creating
+            <h1 className="font-heading text-[clamp(2.75rem,8.5vw,6.5rem)] leading-[0.94] font-semibold tracking-tight text-foreground">
+              Turning your
               <br />
               <span className="bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
-                digital
+                ideas into
               </span>
               <br />
-              experiences.
+              digital reality
             </h1>
           </SlideUp>
 
           <div className="flex flex-col gap-6 lg:col-span-4 lg:items-start">
             <SlideUp delay={0.1}>
               <Typography variant="body-lg">
-                We build premium websites and digital products by combining thoughtful UI/UX
-                design with scalable engineering — from first idea to production launch.
+                We design and build websites and digital products that are
+                functional, accessible, and built to help your business grow,
+                from first idea to launch.
               </Typography>
             </SlideUp>
 
@@ -52,7 +53,11 @@ function Hero() {
                 View Our Work
                 <ArrowRightIcon />
               </Button>
-              <Button size="lg" variant="outline" render={<Link href="/services" />}>
+              <Button
+                size="lg"
+                variant="outline"
+                render={<Link href="/services" />}
+              >
                 Services
               </Button>
             </SlideUp>

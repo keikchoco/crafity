@@ -9,25 +9,30 @@ import { ProcessSection } from "@/components/public/process-section"
 import { CtaSection } from "@/components/public/cta-section"
 import { FadeIn } from "@/components/motion/fade-in"
 import { SlideUp } from "@/components/motion/slide-up"
+import { Suspense } from "react"
 
 export const metadata: Metadata = {
   title: "About",
-  description: "CreaThink is a two-person creative development studio building premium websites and digital products.",
+  description:
+    "CreaThink is a two-person creative development studio building premium websites and digital products.",
   alternates: { canonical: "/about" },
 }
 
 const values = [
   {
     title: "Craftsmanship",
-    description: "Every detail — from spacing to server response times — is considered deliberately.",
+    description:
+      "Every detail — from spacing to server response times — is considered deliberately.",
   },
   {
     title: "Transparency",
-    description: "Clear communication and honest timelines, from kickoff to launch.",
+    description:
+      "Clear communication and honest timelines, from kickoff to launch.",
   },
   {
     title: "Ownership",
-    description: "We treat every project like our own product, not just a deliverable.",
+    description:
+      "We treat every project like our own product, not just a deliverable.",
   },
 ]
 
@@ -41,16 +46,18 @@ export default function AboutPage() {
               <Stack gap="sm">
                 <SectionLabel index="01">About CreaThink</SectionLabel>
                 <Typography variant="h1">
-                  Two founders. One shared obsession with building things well.
+                  Creativity, strategy, and technology, working as one.
                 </Typography>
               </Stack>
             </FadeIn>
             <SlideUp>
-              <Typography variant="body-lg">
-                CreaThink was started by two developer-designers who were tired of choosing between
-                beautiful interfaces and solid engineering. We believe the best digital products
-                come from teams that care about both — so that&apos;s how we work, on every
-                project we take on.
+              <Typography variant="body-lg" className="text-justify">
+                CreaThink exists to turn ideas into meaningful digital
+                experiences, blending creativity, strategy, and technology into
+                websites and digital products that are functional, accessible,
+                and built to last. We work as a trusted partner, not just a
+                vendor, because good technology should be within reach of anyone
+                with a vision worth building.
               </Typography>
             </SlideUp>
           </div>
@@ -62,7 +69,9 @@ export default function AboutPage() {
           <FadeIn>
             <Stack gap="sm" className="mb-10 max-w-xl">
               <SectionLabel index="02">What We Value</SectionLabel>
-              <Typography variant="h2">The principles behind our work</Typography>
+              <Typography variant="h2">
+                The principles behind our work
+              </Typography>
             </Stack>
           </FadeIn>
           <div className="grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-3">
@@ -75,7 +84,9 @@ export default function AboutPage() {
                   <h3 className="font-heading text-lg font-medium text-foreground">
                     {value.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground">{value.description}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {value.description}
+                  </p>
                 </div>
               </SlideUp>
             ))}
@@ -83,7 +94,17 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      <ProcessSection index="03" />
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center py-20">
+            <Typography variant="body-lg">
+              Loading process section...
+            </Typography>
+          </div>
+        }
+      >
+        <ProcessSection index="03" />
+      </Suspense>
 
       <CtaSection
         title="Let's build something together"

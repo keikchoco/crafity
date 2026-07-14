@@ -15,6 +15,7 @@ import { ProjectGallery } from "@/components/public/project-gallery"
 import { Button } from "@/components/ui/button"
 import { FadeIn } from "@/components/motion/fade-in"
 import { SlideUp } from "@/components/motion/slide-up"
+import ContentSection from "./content-section";
 
 interface CaseStudyPageProps {
   params: Promise<{ slug: string }>
@@ -22,7 +23,10 @@ interface CaseStudyPageProps {
 
 export async function generateStaticParams() {
   try {
-    const { items } = await projectService.list({ status: "published" }, { limit: 200 })
+    const { items } = await projectService.list(
+      { status: "published" },
+      { limit: 200 }
+    )
     return items.map((project) => ({ slug: project.slug }))
   } catch {
     return []
@@ -35,7 +39,9 @@ async function getProject(slug: string) {
   return project
 }
 
-export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: CaseStudyPageProps): Promise<Metadata> {
   const { slug } = await params
   const project = await projectService.getPublishedBySlug(slug)
   if (!project) return { title: "Project not found" }
@@ -44,24 +50,19 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
     title: project.seo?.title || project.title,
     description: project.seo?.description || project.shortDescription,
     keywords: project.seo?.keywords,
-    alternates: { canonical: project.seo?.canonicalUrl || `/portfolio/${project.slug}` },
+    alternates: {
+      canonical: project.seo?.canonicalUrl || `/portfolio/${project.slug}`,
+    },
     openGraph: {
       title: project.seo?.title || project.title,
       description: project.seo?.description || project.shortDescription,
-      images: project.seo?.ogImage ? [project.seo.ogImage] : [project.coverImage],
+      images: project.seo?.ogImage
+        ? [project.seo.ogImage]
+        : [project.coverImage],
       type: "article",
     },
   }
 }
-
-const contentSections: { key: "problem" | "research" | "solution" | "designProcess" | "developmentProcess" | "results"; title: string }[] = [
-  { key: "problem", title: "The Problem" },
-  { key: "research", title: "Research" },
-  { key: "solution", title: "The Solution" },
-  { key: "designProcess", title: "Design Process" },
-  { key: "developmentProcess", title: "Development Process" },
-  { key: "results", title: "Results" },
-]
 
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params
@@ -99,7 +100,9 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             <Stack gap="sm" className="mb-8 max-w-3xl">
               <Typography variant="caption">{project.category}</Typography>
               <Typography variant="h1">{project.title}</Typography>
-              <Typography variant="body-lg">{project.shortDescription}</Typography>
+              <Typography variant="body-lg">
+                {project.shortDescription}
+              </Typography>
             </Stack>
           </FadeIn>
 
@@ -120,13 +123,19 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         <Container size="lg">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[2fr_1fr]">
             <FadeIn>
-              <Typography variant="body-lg" className="max-w-2xl text-foreground">
+              <Typography
+                variant="body-lg"
+                className="max-w-2xl text-foreground"
+              >
                 {project.description}
               </Typography>
             </FadeIn>
 
             <SlideUp>
-              <Stack gap="lg" className="rounded-xl border border-border bg-card p-6">
+              <Stack
+                gap="lg"
+                className="rounded-xl border border-border bg-card p-6"
+              >
                 <DetailRow label="Client" value={project.client} />
                 <DetailRow label="Timeline" value={project.timeline} />
                 <DetailRow label="Role" value={project.role} />
@@ -138,7 +147,11 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                     variant="outline"
                     className="w-full"
                     render={
-                      <a href={project.websiteLink} target="_blank" rel="noopener noreferrer" />
+                      <a
+                        href={project.websiteLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      />
                     }
                   >
                     Visit website
@@ -147,7 +160,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                 )}
                 {project.technologies.length > 0 && (
                   <div>
-                    <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                    <span className="text-xs tracking-wide text-muted-foreground uppercase">
                       Technologies
                     </span>
                     <div className="mt-2 flex flex-wrap gap-1.5">
@@ -168,20 +181,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         </Container>
       </Section>
 
-      {contentSections
-        .filter((section) => project[section.key])
-        .map((section, index) => (
-          <Section key={section.key} background={index % 2 === 0 ? "muted" : "none"}>
-            <Container size="lg">
-              <SlideUp>
-                <Stack gap="sm" className="max-w-3xl">
-                  <Typography variant="h2">{section.title}</Typography>
-                  <Typography variant="body-lg">{project[section.key]}</Typography>
-                </Stack>
-              </SlideUp>
-            </Container>
-          </Section>
-        ))}
+      <ContentSection project={project} />
 
       {project.gallery.length > 0 && (
         <Section>
@@ -207,7 +207,9 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <span className="text-xs uppercase tracking-wide text-muted-foreground">{label}</span>
+      <span className="text-xs tracking-wide text-muted-foreground uppercase">
+        {label}
+      </span>
       <p className="text-sm text-foreground">{value}</p>
     </div>
   )

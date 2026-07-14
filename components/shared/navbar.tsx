@@ -16,6 +16,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet"
 import { Container } from "@/components/shared/container"
+import Image from "next/image"
 
 export interface NavLink {
   label: string
@@ -51,7 +52,9 @@ function Wordmark() {
       <span className="flex size-7 items-center justify-center rounded-sm bg-foreground text-sm font-bold text-background transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
         C
       </span>
-      <span className="font-heading text-lg font-semibold tracking-tight">CreaThink</span>
+      <span className="font-heading text-lg font-semibold tracking-tight">
+        CreaThink
+      </span>
     </Link>
   )
 }
@@ -74,12 +77,19 @@ function Navbar({ logo, links = [], actions, className }: NavbarProps) {
       data-slot="navbar"
       className={cn(
         "sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-sm",
-        className,
+        className
       )}
     >
       <Container size="lg">
         <div className="flex h-16 items-center justify-between">
-          {logo ?? <Wordmark />}
+          <Link href="/" className="flex items-center gap-2.5">
+            <Image
+              src="/assets/Creathink_Name_logo_-_PNG.png"
+              alt="CreaThink Logo"
+              width={100}
+              height={40}
+            />
+          </Link>
 
           <nav className="hidden items-center gap-8 md:flex">
             {links.map((link) => (
@@ -90,7 +100,10 @@ function Navbar({ logo, links = [], actions, className }: NavbarProps) {
           <div className="hidden items-center gap-3 md:flex">
             <ThemeToggle />
             {actions ?? (
-              <Button size="sm" render={<Link href="/contact/service-inquiry" />}>
+              <Button
+                size="sm"
+                render={<Link href="/contact/service-inquiry" />}
+              >
                 Start a Project
                 <ArrowRightIcon />
               </Button>
@@ -101,7 +114,9 @@ function Navbar({ logo, links = [], actions, className }: NavbarProps) {
             <ThemeToggle />
             <Sheet>
               <SheetTrigger
-                render={<Button variant="ghost" size="icon" aria-label="Open menu" />}
+                render={
+                  <Button variant="ghost" size="icon" aria-label="Open menu" />
+                }
               >
                 <MenuIcon />
               </SheetTrigger>
@@ -127,7 +142,10 @@ function Navbar({ logo, links = [], actions, className }: NavbarProps) {
                 </nav>
                 <div className="mt-auto px-4 pb-4">
                   {actions ?? (
-                    <Button className="w-full" render={<Link href="/contact/service-inquiry" />}>
+                    <Button
+                      className="w-full"
+                      render={<Link href="/contact/service-inquiry" />}
+                    >
                       Start a Project
                       <ArrowRightIcon />
                     </Button>

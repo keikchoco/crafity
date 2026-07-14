@@ -22,7 +22,7 @@ const fontMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "CreaThink — Digital Craftsmanship for Modern Businesses",
+    default: "CreaThink - Digital Craftsmanship for Modern Businesses",
     template: "%s | CreaThink",
   },
   description: SITE_DESCRIPTION,

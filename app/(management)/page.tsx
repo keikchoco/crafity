@@ -16,20 +16,35 @@ import { ProcessSection } from "@/components/public/process-section"
 import { TestimonialsSection } from "@/components/public/testimonials-section"
 import { CtaSection } from "@/components/public/cta-section"
 import { FadeIn } from "@/components/motion/fade-in"
+import { Suspense } from "react"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { ArrowRightIcon } from "lucide-react"
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 }
 
 export default async function HomePage() {
-  const [projectsResult, servicesResult, testimonialsResult] = await Promise.all([
-    projectService.list({ status: "published" }, { limit: 12, sort: "order" }),
-    serviceService.list({ status: "published" }, { limit: 6, sort: "order" }),
-    testimonialService.list({ status: "published" }, { limit: 6, sort: "order" }),
-  ])
+  const [projectsResult, servicesResult, testimonialsResult] =
+    await Promise.all([
+      projectService.list(
+        { status: "published" },
+        { limit: 12, sort: "order" }
+      ),
+      serviceService.list({ status: "published" }, { limit: 6, sort: "order" }),
+      testimonialService.list(
+        { status: "published" },
+        { limit: 6, sort: "order" }
+      ),
+    ])
 
-  const featuredProjects = projectsResult.items.filter((project) => project.featured)
-  const projectsToShow = (featuredProjects.length > 0 ? featuredProjects : projectsResult.items).slice(0, 3)
+  const featuredProjects = projectsResult.items.filter(
+    (project) => project.featured
+  )
+  const projectsToShow = (
+    featuredProjects.length > 0 ? featuredProjects : projectsResult.items
+  ).slice(0, 3)
 
   return (
     <>
@@ -53,7 +68,7 @@ export default async function HomePage() {
           <FadeIn>
             <Stack gap="sm" className="mb-10 max-w-xl">
               <SectionLabel index="02">Capabilities</SectionLabel>
-              <Typography variant="h2">What we do</Typography>
+              <Typography variant="h2">How we help</Typography>
             </Stack>
           </FadeIn>
           <ServicesGrid
@@ -70,7 +85,18 @@ export default async function HomePage() {
 
       <AboutPreview index="03" />
 
-      <ProcessSection index="04" />
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center py-20">
+            <Typography variant="body-lg">
+              Loading process section...
+            </Typography>
+          </div>
+        }
+      >
+        <ProcessSection index="04" />
+        
+      </Suspense>
 
       <TestimonialsSection
         index="05"

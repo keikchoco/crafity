@@ -18,12 +18,12 @@ function AboutPreview({ index }: AboutPreviewProps) {
   return (
     <Section background="muted">
       <Container size="lg">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+        <div className="grid grid-cols-1  gap-10 lg:grid-cols-2">
           <FadeIn>
             <Stack gap="sm">
               <SectionLabel index={index}>Why CreaThink</SectionLabel>
               <Typography variant="h2">
-                A small studio with senior-level engineering and design craft.
+                Built to give every project full attention.
               </Typography>
             </Stack>
           </FadeIn>
@@ -31,11 +31,16 @@ function AboutPreview({ index }: AboutPreviewProps) {
           <SlideUp>
             <Stack gap="lg">
               <Typography variant="body-lg">
-                CreaThink is built by two founders who care equally about how a product looks and
-                how it&apos;s engineered underneath. We work closely with every client, from the
-                first sketch to the last deployment, so nothing gets lost in translation.
+                Every project gets our full, direct attention, not handed off to
+                someone junior after the pitch. Design and engineering work
+                through every decision together with you, so nothing gets lost
+                between the two.
               </Typography>
-              <Button variant="outline" className="self-start" render={<Link href="/about" />}>
+              <Button
+                variant="outline"
+                className="self-start"
+                render={<Link href="/about" />}
+              >
                 More about us
                 <ArrowRightIcon />
               </Button>

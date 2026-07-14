@@ -13,8 +13,8 @@ export default async function ManagementLayout({
 
   const links: NavLink[] = [
     { label: "Home", href: "/" },
-    { label: "Work", href: "/portfolio" },
     { label: "Services", href: "/services" },
+    { label: "Works", href: "/portfolio" },
     ...(blogEnabled ? [{ label: "Blog", href: "/blog" }] : []),
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
